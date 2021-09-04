@@ -1,10 +1,10 @@
 {
-  "name": "2021.1_G6_Curumim-Back-end",
+  "name": "curumim-back-end",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js",
-    "dev": "nodemon ./src/index.js"
+    "start": "node  src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "repository": "git@github.com:UnBArqDsw2021-1/2021.1_G6_Curumim-Back-end.git",
   "author": "Francisco Emanoel Ferreira da Penha <francisco170142329@gmail.com>",
@@ -14,4 +14,5 @@
     "nodemon": "^2.0.12",
     "sucrase": "^3.20.1"
   }
+
 }
