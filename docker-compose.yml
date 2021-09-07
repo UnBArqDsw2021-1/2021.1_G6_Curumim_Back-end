@@ -5,6 +5,8 @@ services:
     db:
         container_name: db
         image: "postgres" 
+        ports:
+          - 5432:5432
         env_file:
           - .env
         volumes:
