@@ -16,7 +16,7 @@ module.exports = {
         onDelete: 'SET NULL',
       },
       projectType:{
-        Type: Sequelize.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       title: {

@@ -11,7 +11,7 @@ module.exports = {
       },
       fk_idClass: {
         type: Sequelize.INTEGER,
-        references: { model: 'Class', key: 'id'},
+        references: { model: 'class', key: 'id'},
         onUpdate: 'CASCADE', 
         onDelete: 'CASCADE',
       },
