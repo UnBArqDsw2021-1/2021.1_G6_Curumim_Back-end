@@ -1,10 +1,11 @@
 module.exports = {
-    dialect: process.env.DB_DIALECT  || 'postgres',
+    dialect:'postgres',
     host: process.env.POSTGRES_HOST,
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-    port: 5432,
+    operatorAliases: 'false',
+    logging: false,
     define: {
         timestamps: true,
     },
