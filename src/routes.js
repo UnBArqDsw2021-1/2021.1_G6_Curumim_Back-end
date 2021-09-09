@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import connection from './database/index.js'
-import TestController from './app/controllers/testeControlloer.js'
+import EventController from './app/controllers/EcController.js';
+import EcController from './app/controllers/EcController.js';
 
 const routes = new Router();
 
@@ -9,6 +10,8 @@ routes.get('/', async (req, res) => {
   return res.json({ ok: true })
 })
 
-routes.post('/ec', TestController.createEC)
+routes.post('/EC', EcController.store);
+
+
 
 export default routes

@@ -2,6 +2,7 @@ import { Sequelize } from "sequelize";
 import User from './User.js';
 import Event from './Event.js';
 import Report from './Report.js';
+
 const Model = Sequelize.Model;
 class Adm extends Model { }
 Adm.init({
