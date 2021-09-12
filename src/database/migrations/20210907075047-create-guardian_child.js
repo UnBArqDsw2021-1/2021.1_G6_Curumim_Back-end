@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('guardian_child', { 
+  up:  (queryInterface, Sequelize) => {
+    return queryInterface.createTable('guardian_child', { 
       id: {
         allowNull: false,
         primaryKey: true,
@@ -11,13 +11,13 @@ module.exports = {
       },
       fk_idGuardian: {
         type: Sequelize.INTEGER,
-        references: { model: 'guardian', key: 'id'},
+        references: { model: 'guardians', key: 'id'},
         onUpdate: 'CASCADE', 
         onDelete: 'CASCADE',
       },
       fk_idChild: {
         type: Sequelize.INTEGER,
-        references: { model: 'child', key: 'id'},
+        references: { model: 'children', key: 'id'},
         onUpdate: 'CASCADE', 
         onDelete: 'CASCADE',
       },
@@ -33,6 +33,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('guardian_child');
+    return queryInterface.dropTable('guardian_child');
   }
 };

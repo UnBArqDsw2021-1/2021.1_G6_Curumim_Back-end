@@ -1,13 +1,13 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('guardian', { 
+  up:(queryInterface, Sequelize) => {
+    return queryInterface.createTable('guardians', { 
       id: {
         type: Sequelize.INTEGER, 
         primaryKey: true,
         allowNull: false,
-        references: { model: 'user', key: 'id'},
+        references: { model: 'users', key: 'id'},
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
@@ -27,6 +27,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('guardian');
+   return  queryInterface.dropTable('guardians');
   }
 };

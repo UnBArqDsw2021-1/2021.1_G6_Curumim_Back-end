@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 
 const Model = Sequelize.Model;
 class Anotation extends Model { }
@@ -26,4 +26,4 @@ Anotation.init({
 Anotation.belongTo(Teacher, {as: 'fk_IdTeacher'});
 Anotation.belongTo(Child, {as: 'fk_IdChild'});
 
-export default Anotation;
+export default Anotation; */

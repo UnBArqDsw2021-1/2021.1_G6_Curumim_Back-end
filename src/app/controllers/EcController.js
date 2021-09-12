@@ -1,4 +1,4 @@
-import EC from "../models/EC";
+/* import EC from "../models/EC";
 
 class EC {
 
@@ -22,4 +22,4 @@ class EC {
 
 }
 
-export default new EC();
+export default new EC(); */

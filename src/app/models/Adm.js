@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 import User from './User.js';
 import Event from './Event.js';
 import Report from './Report.js';
@@ -25,4 +25,4 @@ Adm.init({
 Adm.hasOne(User, {as: 'idAdm'});
 Adm.hasMany(Event);
 Adm.hasMany(Report);
-export default Adm;
+export default Adm; */

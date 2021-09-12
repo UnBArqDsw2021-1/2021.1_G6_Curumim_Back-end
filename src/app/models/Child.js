@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 import Class from './Class.js';
 import Guardian from './Guardian.js';
 const Model = Sequelize.Model;
@@ -31,4 +31,4 @@ Child.init({
 Child.belongsTo(Class);
 Child.belongToMany(Guardian, {through: 'Guardian_Child'});
 
-export default Child;
+export default Child; */

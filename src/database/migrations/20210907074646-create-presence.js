@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('presence', { 
+  up:  (queryInterface, Sequelize) => {
+    return queryInterface.createTable('presences', { 
       id: {
         allowNull: false,
         primaryKey: true,
@@ -11,13 +11,13 @@ module.exports = {
       },
       fk_idChild: {
         type: Sequelize.INTEGER,
-        references: { model: 'child', key: 'id'},
+        references: { model: 'children', key: 'id'},
         onUpdate: 'CASCADE', 
         onDelete: 'CASCADE',
       },
       fk_idClass: {
         type: Sequelize.INTEGER,
-        references: { model: 'class', key: 'id'},
+        references: { model: 'classes', key: 'id'},
         onUpdate: 'CASCADE', 
       },
       status: {
@@ -40,6 +40,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('presence');
+    return queryInterface.dropTable('presences');
   }
 };

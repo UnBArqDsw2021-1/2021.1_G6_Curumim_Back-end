@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('message', { 
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('messages', { 
       id: {
         allowNull: false,
         primaryKey: true,
@@ -11,7 +11,7 @@ module.exports = {
       },
       fk_idUser: {
         type: Sequelize.INTEGER,
-        references: { model: 'user', key: 'id'},
+        references: { model: 'users', key: 'id'},
         onUpdate: 'CASCADE', 
       },
       body: {
@@ -30,6 +30,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('message');
+    return queryInterface.dropTable('messages');
   }
 };

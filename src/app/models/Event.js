@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 
 const Model = Sequelize.Model;
 class Event extends Model { }
@@ -27,4 +27,4 @@ Event.init({
   // options
 });
 
-export default Event;
+export default Event; */
