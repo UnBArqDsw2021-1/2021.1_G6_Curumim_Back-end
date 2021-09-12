@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 import Teacher from './Teacher.js';
 import Child from './Child.js';
 import Activity from './Activity.js';
@@ -30,4 +30,4 @@ Class.hasMany(Child);
 Class.hasMany(Teacher);
 Class.hasMany(Activity);
 Class.hasOne(EC);
-export default Class;
+export default Class; */

@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 
 const Model = Sequelize.Model;
 class Report extends Model { }
@@ -23,4 +23,4 @@ Report.init({
   // options
 });
 
-export default Report;
+export default Report; */

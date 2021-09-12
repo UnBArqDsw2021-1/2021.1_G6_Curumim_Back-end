@@ -1,4 +1,4 @@
-import Sequelize, { Model } from 'sequelize'
+/* import Sequelize, { Model } from 'sequelize'
 
 class EC extends Model {
   static init(sequelize){
@@ -15,4 +15,4 @@ class EC extends Model {
   }
 }
 
-export default EC;
+export default EC; */

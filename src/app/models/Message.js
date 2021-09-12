@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 
 const Model = Sequelize.Model;
 class Message extends Model { }
@@ -23,4 +23,4 @@ Message.init({
   // options
 });
 
-export default Message;
+export default Message; */

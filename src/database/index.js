@@ -1,14 +1,10 @@
 import Sequelize from 'sequelize'
-import Adm from '../app/models/Adm';
-import EC from '../app/models/EC';
+import User from '../app/models/User';
 import dbConfig from '../config/database'
 import Ec from '../app/models/Ec.js'
 
 
-Ec.init(connection);
-
-export default connection;
-const models = [EC];
+const models = [User];
 
 class Database {
   constructor() {

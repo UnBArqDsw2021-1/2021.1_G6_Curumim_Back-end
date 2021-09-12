@@ -1,45 +1,23 @@
-import { Sequelize } from "sequelize";
-import Message from './Message.js';
-const Model = Sequelize.Model;
-class User extends Model { }
-User.init({
-  // attributes
-  iduser: {
-    allowNull: false,
-    primaryKey: true,
-    type: Sequelize.UUIDV4
-  },
-  usertype: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
-  name: {
-    type: Sequelize.STRING(50),
-    allowNull: false
-  },
-  cpf: {
-    type: Sequelize.STRING(11),
-    allowNull: false
-  },
-  birthday: {
-    type: Sequelize.STRING(10),
-    allowNull: false
-  },
-  email: {
-    type: Sequelize.STRING(10),
-    allowNull: false,
-    unique: true
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false
-  }
-}, {
-  sequelize,
-  modelName: 'user'
-  // options
-});
+import Sequelize, { Model } from 'sequelize';
 
-User.belongsTo(Message, {as: 'fk_IdUser'});
+class User extends Model {
+  static init(sequelize){
+    super.init(
+      {
+        usertype: Sequelize.INTEGER,
+        name: Sequelize.STRING,
+        cpf: Sequelize.STRING,
+        birthday: Sequelize.DATE,
+        email: Sequelize.STRING,
+        password: Sequelize.STRING,
+
+      },
+      {
+        sequelize,
+      }
+      );
+      return this;
+  }
+}
 
 export default User;

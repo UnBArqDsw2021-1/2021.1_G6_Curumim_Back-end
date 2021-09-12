@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('class', { 
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('classes', { 
       id: {
         allowNull: false,
         primaryKey: true,
@@ -12,7 +12,7 @@ module.exports = {
       fk_idEc: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'ec', key: 'id'},
+        references: { model: 'ecs', key: 'id'},
         onUpdate: 'CASCADE', 
         onDelete: 'CASCADE',
       },
@@ -36,6 +36,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('class');
+    return queryInterface.dropTable('classes');
   }
 };

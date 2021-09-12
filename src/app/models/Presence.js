@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 
 const Model = Sequelize.Model;
 class Presence extends Model { }
@@ -23,4 +23,4 @@ Presence.init({
   // options
 });
 
-export default Presence;
+export default Presence; */

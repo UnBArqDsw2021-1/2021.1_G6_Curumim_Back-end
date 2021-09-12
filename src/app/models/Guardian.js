@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 import User from './User.js';
 import Child from './Child.js';
 const Model = Sequelize.Model;
@@ -23,4 +23,4 @@ Guardian.init({
 Guardian.hasOne(User);
 Guardian.hasMany(Child);
 
-export default Guardian;
+export default Guardian; */

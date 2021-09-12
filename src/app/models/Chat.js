@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 
 const Model = Sequelize.Model;
 class Chat extends Model { }
@@ -18,4 +18,4 @@ Chat.init({
 Chat.hasOne(Guardian, {as: 'fk_idGuardian'});
 Chat.hasOne(User, {as: 'fk_idUser'});
 Chat.hasMany(Message);
-export default Chat;
+export default Chat; */

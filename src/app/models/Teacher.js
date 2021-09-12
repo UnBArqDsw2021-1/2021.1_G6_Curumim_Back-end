@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 import User from './User.js';
 const Model = Sequelize.Model;
 class Teacher extends Model { }
@@ -22,4 +22,4 @@ Teacher.init({
 Teacher.hasOne(User);
 Teacher.hasMany(Activity);
 
-export default Teacher;
+export default Teacher; */

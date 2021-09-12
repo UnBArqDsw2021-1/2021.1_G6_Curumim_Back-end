@@ -1,4 +1,4 @@
-import { Sequelize } from "sequelize";
+/* import { Sequelize } from "sequelize";
 import Class from "./Class.js";
 import Teacher from './Teacher.js';
 const Model = Sequelize.Model;
@@ -31,4 +31,4 @@ Activity.init({
 Activity.hasOne(Teacher, {as: 'fk_IdTeacher'});
 Activity.belongsToMany(Class, {through: 'ClassActivity'});
 
-export default Teacher;
+export default Teacher; */

@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('report', { 
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('reports', { 
       id: {
         allowNull: false,
         primaryKey: true,
@@ -12,7 +12,7 @@ module.exports = {
       fk_idAdm: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: { model: 'professional', key: 'id'},
+        references: { model: 'professionals', key: 'id'},
         onUpdate: 'CASCADE', 
         onDelete: 'SET NULL',
       },
@@ -36,6 +36,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('report');
+    return queryInterface.dropTable('reports');
   }
 };
