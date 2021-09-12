@@ -5,8 +5,6 @@ class UserController {
   async store(req, res) {
         
     try{
-
-
       const { usertype, name, cpf, birthday, email, password } = await User.create(req.body);  
         return res.json({
             usertype, 
