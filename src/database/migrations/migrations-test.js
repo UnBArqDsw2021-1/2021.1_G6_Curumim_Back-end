@@ -1,1 +1,0 @@
-// aqui fica todas as migrations

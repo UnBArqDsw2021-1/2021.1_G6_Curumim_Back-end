@@ -1,3 +1,4 @@
 import app from './app'
+require('./database');
 
-app.listen(4000)
+app.listen(process.env.PORT || 3333);
