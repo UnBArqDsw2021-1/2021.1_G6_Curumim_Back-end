@@ -1,15 +1,13 @@
 import { Router } from 'express'
-import connection from './database/index.js'
-import EventController from './app/controllers/EcController.js';
-import EcController from './app/controllers/EcController.js';
 import UserController from './app/controllers/UserController.js';
+import AuthController from './app/controllers/AuthController.js';
+import AuthMiddleware from './app/middlewares/middleware.js'
 
 const routes = new Router();
 
-
-
 routes.post('/users', UserController.store);
-
-
+routes.post('/login', AuthController.login);
+routes.use(AuthMiddleware)
+routes.get('/list-users', UserController.list);
 
 export default routes
