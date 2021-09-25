@@ -1,9 +1,9 @@
 import Sequelize, { Model } from 'sequelize';
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
 import { password } from '../../config/database';
 
 class User extends Model {
-  static init(sequelize){
+  static init(sequelize) {
     super.init(
       {
         usertype: Sequelize.INTEGER,
@@ -12,21 +12,22 @@ class User extends Model {
         birthday: Sequelize.DATE,
         email: Sequelize.STRING,
         password_hash: Sequelize.STRING,
-        password: Sequelize.VIRTUAL
+        password: Sequelize.VIRTUAL,
       },
       {
         sequelize,
+      },
+    );
+    this.addHook('beforeSave', async (user) => {
+      if (user.password) {
+        user.password_hash = await bcrypt.hash(user.password, 8);
       }
-      );
-      this.addHook('beforeSave', async user => {
-        if(user.password){
-          user.password_hash = await bcrypt.hash(user.password, 8)
-        }
-      })
-      return this;
+    });
+    return this;
   }
-  checkPassword(password){
-    return bcrypt.compare(password, this.password_hash);
+
+  checkPassword(passwd) {
+    return bcrypt.compare(passwd, this.password_hash);
   }
 }
 
