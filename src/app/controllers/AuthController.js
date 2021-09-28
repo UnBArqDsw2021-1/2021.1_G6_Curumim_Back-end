@@ -4,7 +4,20 @@ import User from '../models/User';
 import authConfig from '../../config/auth.config';
 
 class AuthController {
-  async login(req, res) {
+  
+  async authenticate(req, res) {
+
+  }
+
+  async sessionAuthentication(req, res) {
+
+  }
+
+  async refreshToken(req, res) {
+
+  }
+
+  async login(req, rest) {
     try {
       const { email, password } = req.body;
 
@@ -17,14 +30,14 @@ class AuthController {
       if (!(await user.checkPassword(password))) {
         return res.status(401).json({ error: 'Senha incorreta.' });
       }
-
-      const { id, name } = user;
+      const { id, name, usertype } = user;
 
       return res.json({
         user: {
           id,
           name,
           email,
+          usertype,
         },
 
         token: jwt.sign({ id }, authConfig.secret, {

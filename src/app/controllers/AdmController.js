@@ -1,6 +1,8 @@
 import Child from '../models/Child';
+import UserController from './UserController';
 
-class AdmController {
+
+class AdmController extends UserController {
   async registerChild(req, res) {
     try {
       const { name, registration, birthday } = req.body;

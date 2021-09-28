@@ -1,6 +1,6 @@
 import express from 'express';
 import routes from './routes';
-import './config/database';
+import './database';
 
 require('dotenv').config();
 

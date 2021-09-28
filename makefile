@@ -21,3 +21,6 @@ unmigrate:
 
 migrate:
 	docker exec api yarn sequelize db:migrate
+
+lint:
+	docker exec api yarn run eslint src/* --fix
