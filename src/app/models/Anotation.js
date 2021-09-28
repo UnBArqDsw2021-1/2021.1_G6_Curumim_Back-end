@@ -1,29 +1,19 @@
-/* import { Sequelize } from "sequelize";
+import { Model, DataTypes } from 'sequelize';
 
-const Model = Sequelize.Model;
-class Anotation extends Model { }
-Anotation.init({
-  // attributes
-  idAnotation: {
-    allowNull: false,
-    primaryKey: true,
-    type: Sequelize.UUIDV4
-  },
-  title: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  description: {
-    type: Sequelize.STRING,
-    allowNull: false
+class Anotation extends Model {
+  static init(sequelize) {
+    super.init({
+      title: DataTypes.STRING,
+      description: DataTypes.STRING,
+    }, {
+      sequelize,
+    });
   }
-}, {
-  sequelize,
-  modelName: 'anotation'
-  // options
-});
 
-Anotation.belongTo(Teacher, {as: 'fk_IdTeacher'});
-Anotation.belongTo(Child, {as: 'fk_IdChild'});
+/*   associate(models) {
+    this.belongTo(models.Teacher, { foreingKey: 'fk_IdTeacher' });
+    this.belongTo(models.Child, { foreingKey: 'fk_IdChild' });
+  } */
+}
 
-export default Anotation; */
+export default Anotation;
