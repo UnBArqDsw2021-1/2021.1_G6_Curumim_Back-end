@@ -9,7 +9,7 @@ class AdmController {
       return res.status(500).json({ error: err.message });
     }
 
-    return res.status(204).json({ message: 'Aluno cadastrado!' });
+    return res.status(201).json({ message: 'Aluno cadastrado!' });
   }
 }
 
