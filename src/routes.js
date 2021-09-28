@@ -8,7 +8,7 @@ const routes = new Router();
 
 routes.post('/login', AuthController.login);
 routes.post('/adm/register-teacher', TeacherController.register);
-routes.get('/list-professionals', TeacherController.list)
+routes.get('/list-professionals', TeacherController.list);
 routes.use(AuthMiddleware);
 
 export default routes;

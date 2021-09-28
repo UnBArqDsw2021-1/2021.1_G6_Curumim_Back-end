@@ -1,19 +1,19 @@
 import UserController from './UserController';
 import Professionals from '../models/Professionals';
-import User from '../models/User'
+import User from '../models/User';
 
 class TeacherController extends UserController {
   async list(req, res) {
     try {
       const users = await User.findAll();
       const plist = await Professionals.findAll();
-      return res.json({users: users,professionals: plist});
+      return res.json({ users, professionals: plist });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
   }
 
-  async register(req, res){
+  async register(req, res) {
     try {
       const {
         usertype, name, cpf, birthday, email, password, registration,
