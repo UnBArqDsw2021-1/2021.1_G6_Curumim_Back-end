@@ -4,7 +4,6 @@ import User from '../models/User';
 import authConfig from '../../config/auth.config';
 
 class AuthController {
-  
   async authenticate(req, res) {
 
   }

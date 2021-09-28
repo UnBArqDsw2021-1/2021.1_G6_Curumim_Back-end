@@ -1,9 +1,7 @@
 import Child from '../models/Child';
 import UserController from './UserController';
 
-
 class AdmController extends UserController {
-  
   async register(req, res) {
     try {
       const usertype = 2;
