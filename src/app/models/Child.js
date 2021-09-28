@@ -1,34 +1,20 @@
-/* import { Sequelize } from "sequelize";
-import Class from './Class.js';
-import Guardian from './Guardian.js';
-const Model = Sequelize.Model;
-class Child extends Model { }
-Child.init({
-  // attributes
-  idChild: {
-    allowNull: false,
-    primaryKey: true,
-    type: Sequelize.UUIDV4
-  },
-  name : {
-    type: Sequelize.STRING(50),
-    allowNull: false
-  },
-  birthday : {
-    type: Sequelize.STRING(10),
-    allowNull: false
-  },
-  registration: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  },
-}, {
-  sequelize,
-  modelName: 'child'
-  // options
-});
+import { Model, DataTypes } from 'sequelize';
 
-Child.belongsTo(Class);
-Child.belongToMany(Guardian, {through: 'Guardian_Child'});
+class Child extends Model {
+  static init(sequelize) {
+    super.init({
+      name: DataTypes.STRING,
+      birthday: DataTypes.DATE,
+      registration: DataTypes.INTEGER,
+    }, {
+      sequelize,
+    });
+  }
 
-export default Child; */
+  /* static associate(models) {
+    this.belongTo(models.Class);
+    this.belongToMany(models.Guardian, { through: 'Guardian_Child' });
+  } */
+}
+
+export default Child;

@@ -4,6 +4,7 @@ import User from '../models/User';
 import authConfig from '../../config/auth.config';
 
 class AuthController {
+  
   async authenticate(req, res) {
 
   }
@@ -29,7 +30,6 @@ class AuthController {
       if (!(await user.checkPassword(password))) {
         return res.status(401).json({ error: 'Senha incorreta.' });
       }
-
       const { id, name, usertype } = user;
 
       return res.json({

@@ -19,6 +19,7 @@ module.exports = {
     registration: {
       type: Sequelize.INTEGER,
       allowNull: false,
+      unique: true,
     },
     created_at: {
       type: Sequelize.DATE,

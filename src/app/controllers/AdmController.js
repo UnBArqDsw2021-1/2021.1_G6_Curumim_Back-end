@@ -1,8 +1,9 @@
-import Professionals from '../models/Professionals';
-import User from '../models/User';
+import Child from '../models/Child';
 import UserController from './UserController';
 
+
 class AdmController extends UserController {
+  
   async register(req, res) {
     try {
       const usertype = 2;
@@ -24,6 +25,17 @@ class AdmController extends UserController {
       console.log(err);
       return res.status(500).json({ error: err.stack });
     }
+  }
+
+  async registerChild(req, res) {
+    try {
+      const { name, registration, birthday } = req.body;
+      await Child.create({ name, registration, birthday });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    return res.status(201).json({ message: 'Aluno cadastrado!' });
   }
 }
 
