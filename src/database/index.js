@@ -3,8 +3,9 @@ import User from '../app/models/User';
 import dbConfig from '../config/database';
 import Ec from '../app/models/Ec.js';
 import Professionals from '../app/models/Professionals';
+import Guardian from '../app/models/Guardian';
 
-const models = [User, Professionals];
+const models = [User, Professionals, Guardian];
 
 class Database {
   constructor() {
