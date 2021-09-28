@@ -1,6 +1,10 @@
+import Sequelize from 'sequelize';
 import UserController from './UserController';
 import Professionals from '../models/Professionals';
 import User from '../models/User';
+import dbConfig from '../../config/database';
+
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
 
 class TeacherController extends UserController {
   async list(req, res) {
@@ -14,6 +18,7 @@ class TeacherController extends UserController {
   }
 
   async register(req, res) {
+    const t = await sequelize.transaction();
     try {
       const usertype = 1;
       const {
@@ -21,8 +26,9 @@ class TeacherController extends UserController {
       } = req.body;
       const { id } = await User.create({
         usertype, name, cpf, birthday, email, password,
-      });
-      await Professionals.create({ id, professionalType: 'teacher', registration });
+      }, { transaction: t });
+      await Professionals.create({ id, professionalType: 'teacher', registration }, { transaction: t });
+      await t.commit();
       return res.json({
         usertype,
         name,
@@ -31,7 +37,8 @@ class TeacherController extends UserController {
         email,
       });
     } catch (err) {
-      console.log(err);
+      t.rollback();
+      console.log(err.error);
       return res.status(500).json({ error: err.stack });
     }
   }

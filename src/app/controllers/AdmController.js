@@ -1,8 +1,15 @@
+import Sequelize from 'sequelize';
 import Child from '../models/Child';
+import Professionals from '../models/Professionals';
+import User from '../models/User';
 import UserController from './UserController';
+import dbConfig from '../../config/database';
+
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
 
 class AdmController extends UserController {
   async register(req, res) {
+    const t = await sequelize.transaction();
     try {
       const usertype = 2;
       const {
@@ -10,8 +17,9 @@ class AdmController extends UserController {
       } = req.body;
       const { id } = await User.create({
         usertype, name, cpf, birthday, email, password,
-      });
-      await Professionals.create({ id, professionalType: 'adm', registration });
+      }, { transaction: t });
+      await Professionals.create({ id, professionalType: 'adm', registration }, { transaction: t });
+      await t.commit();
       return res.json({
         usertype,
         name,
@@ -20,7 +28,8 @@ class AdmController extends UserController {
         email,
       });
     } catch (err) {
-      console.log(err);
+      t.rollback();
+      console.log(err.error);
       return res.status(500).json({ error: err.stack });
     }
   }
