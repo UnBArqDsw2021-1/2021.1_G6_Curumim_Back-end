@@ -1,33 +1,22 @@
-/* import { Sequelize } from "sequelize";
-import Teacher from './Teacher.js';
-import Child from './Child.js';
-import Activity from './Activity.js';
-import EC from './EC.js';
-const Model = Sequelize.Model;
-class Class extends Model { }
-Class.init({
-  // attributes
-  idClass: {
-    allowNull: false,
-    primaryKey: true,
-    type: Sequelize.UUIDV4
-  },
-  code: {
-    type: Sequelize.STRING(2),
-    allowNull: false
-  },
-  capacity: {
-    type: Sequelize.INTEGER,
-    allowNull: false
-  }
-}, {
-  sequelize,
-  modelName: 'class'
-  // options
-});
+import { Model, DataTypes } from 'sequelize';
 
-Class.hasMany(Child);
-Class.hasMany(Teacher);
-Class.hasMany(Activity);
-Class.hasOne(EC);
-export default Class; */
+class Class extends Model {
+  static init(sequelize) {
+    super.init({
+      code: DataTypes.STRING,
+      capacity: DataTypes.INTEGER,
+    }, {
+      sequelize,
+    });
+  }
+
+  /* static associate(models) {
+    this.belongsTo(models.Ec, { ForeingKey: 'fk_idEc' });
+    this.hasMany(models.Child);
+    this.hasMany(models.Activity, { through: 'class_project' });
+    this.hasMany(models.Event, { through: 'class_project' });
+    this.hasMany(models.Teacher, { through: 'class_professional' });
+  } */
+}
+
+export default Class;
