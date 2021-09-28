@@ -1,4 +1,4 @@
-/* import EC from "../models/EC";
+import EC from "../models/EC";
 
 class EC {
 
@@ -6,7 +6,7 @@ class EC {
 
         try {
 
-          const { id,name,adress,description} = await Admin.create(req.body);
+          const { id,name,adress,description} = await EC.create(req.body);
     
           return res.json({
             id,
@@ -16,10 +16,10 @@ class EC {
           });
     
         }catch(err){
-          return res.status(500).json({ error: 'Falha na criação do evento'});
+          return res.status(500).json({ error: 'Falha na criação do centro educacional.'});
         }
       }
 
 }
 
-export default new EC(); */
+export default new EC();
