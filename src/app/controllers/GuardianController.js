@@ -44,9 +44,9 @@ class GuardianController extends UserController {
     }
   }
 
-  async getActivityDetails(req, res){
-    try{
-      var id = req.query.id;
+  async getActivityDetails(req, res) {
+    try {
+      const { id } = req.query;
       const project = await Project.findByPk(id);
 
       // TODO: Validar se a atividade é do filho
