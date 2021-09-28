@@ -1,13 +1,10 @@
 import { Router } from 'express';
-import AuthController from './app/controllers/AuthController.js';
-import Middleware from './app/middlewares/middleware.js';
-import AdmController from './app/controllers/AdmController.js';
-import TeacherController from './app/controllers/TeacherController.js';
-import GuardianController from './app/controllers/GuardianController.js';
-import ChildController from './app/controllers/ChildController';
 import AuthController from './app/controllers/AuthController';
+import Middleware from './app/middlewares/middleware';
+import AdmController from './app/controllers/AdmController';
 import TeacherController from './app/controllers/TeacherController';
-
+import GuardianController from './app/controllers/GuardianController';
+import ChildController from './app/controllers/ChildController';
 
 const routes = new Router();
 // Unverified routes

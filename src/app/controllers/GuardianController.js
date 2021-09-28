@@ -4,7 +4,8 @@ import User from '../models/User';
 import Guardian from '../models/Guardian';
 import dbConfig from '../../config/database';
 
-const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
+  dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
 
 class GuardianController extends UserController {
   async list(req, res) {
@@ -38,7 +39,6 @@ class GuardianController extends UserController {
       });
     } catch (err) {
       t.rollback();
-      console.log(err);
       return res.status(500).json({ error: err.stack });
     }
   }

@@ -5,7 +5,8 @@ import User from '../models/User';
 import UserController from './UserController';
 import dbConfig from '../../config/database';
 
-const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
+  dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
 
 class AdmController extends UserController {
   async register(req, res) {
@@ -29,7 +30,6 @@ class AdmController extends UserController {
       });
     } catch (err) {
       t.rollback();
-      console.log(err.error);
       return res.status(500).json({ error: err.stack });
     }
   }
