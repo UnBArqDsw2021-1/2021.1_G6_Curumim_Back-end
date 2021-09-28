@@ -5,6 +5,8 @@ import AdmController from './app/controllers/AdmController';
 import TeacherController from './app/controllers/TeacherController';
 import GuardianController from './app/controllers/GuardianController';
 import ChildController from './app/controllers/ChildController';
+import ActivityController from './app/controllers/ActivityController';
+import ProjectController from './app/controllers/ProjectController';
 
 const routes = new Router();
 // Unverified routes
@@ -12,16 +14,23 @@ routes.post('/login', AuthController.login);
 routes.post('/dev/register-adm', AdmController.register);
 routes.post('/register-guardian', GuardianController.register);
 // Admin routes
-routes.use(Middleware.verifyAdm);
+routes.use('/adm',Middleware.verifyAdm);
 routes.post('/adm/register-child', AdmController.registerChild);
 routes.post('/adm/register-teacher', TeacherController.register);
-routes.get('/list-childs', ChildController.listChilds);
-routes.get('/list-professionals', TeacherController.list);
-routes.get('/list-guardians', GuardianController.list);
+routes.post('/adm/create-activity', ActivityController.createActivity);
+routes.post('/adm/update-activity', ActivityController.updateActivity);
+routes.post('/adm/delete-activity', ActivityController.deleteActivity);
+routes.get('/adm/list-childs', ChildController.listChilds);
+routes.get('/adm/list-professionals', TeacherController.list);
+routes.get('/adm/list-guardians', GuardianController.list);
+routes.get('/adm/list-projects', ProjectController.list);
 // Teacher routes
-routes.use(Middleware.verifyTeacher);
-routes.post('/teacher/create-activity', TeacherController.createActivity);
+routes.use('/teacher', Middleware.verifyTeacher);
+routes.post('/teacher/create-activity', ActivityController.createActivity);
+routes.post('/teacher/update-activity', ActivityController.updateActivity);
+routes.post('/teacher/delete-activity', ActivityController.deleteActivity);
 // Guardian routes
-routes.use(Middleware.verifyGuardian);
+routes.use('/guardian',Middleware.verifyGuardian);
+routes.get('/guardian/get-activity', GuardianController.getActivityDetails)
 
 export default routes;
