@@ -17,7 +17,7 @@ class Professionals extends Model {
   }
 
   static associate(models) {
-    Professionals.hasMany(Project, {as: 'Projects'})
+    Professionals.hasMany(models.Project, { foreignKey: 'fk_idProfessional', as: 'Projects' });
   }
 }
 

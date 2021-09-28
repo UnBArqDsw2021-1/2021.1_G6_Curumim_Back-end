@@ -15,8 +15,8 @@ class Project extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Professionals, { foreignKey: 'id', through: 'fk_IdProfessional' });
-    // Project.belongsToMany(Class, {through: 'ClassActivity'});
+    this.belongsTo(models.Professionals, { foreignKey: 'fk_idProfessional', as: 'Professional' });
+    this.belongsToMany(models.Class, { as: 'Class', through: 'ClassProject', foreignKey: 'fk_idProject' });
   }
 }
 

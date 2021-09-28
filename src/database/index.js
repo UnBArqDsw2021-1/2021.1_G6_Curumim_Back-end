@@ -9,7 +9,7 @@ import Child from '../app/models/Child';
 import Project from '../app/models/Project';
 
 const models = [User, Ec, Class, Child, Professionals, Guardian, Project];
-const assoc = [Professionals]
+const assoc = [Class, Professionals, Project];
 
 class Database {
   constructor() {
