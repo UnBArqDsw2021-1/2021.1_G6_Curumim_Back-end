@@ -1,40 +1,40 @@
-import jwt from "jsonwebtoken";
-import User from "../models/User";
+import jwt from 'jsonwebtoken';
+import User from '../models/User';
 
-import authConfig from "../../config/auth.config";
+import authConfig from '../../config/auth.config';
 
 class AuthController {
-    async login(req, res){
-        try{
-            const { email, password } = req.body;
+  async login(req, res) {
+    try {
+      const { email, password } = req.body;
 
-            const user = await User.findOne({ where: { email:email }})
-            
-            if(!user){
-                return res.status(401).json({error: "Usuário não existe."});
-            }
+      const user = await User.findOne({ where: { email } });
 
-            if(!(await user.checkPassword(password))){
-                return res.status(401).json({ error: "Senha incorreta."});
-            }
+      if (!user) {
+        return res.status(401).json({ error: 'Usuário não existe.' });
+      }
 
-            const {id, name} = user;
+      if (!(await user.checkPassword(password))) {
+        return res.status(401).json({ error: 'Senha incorreta.' });
+      }
 
-            return res.json({
-                user: {
-                    id,
-                    name,
-                    email
-                },
+      const { id, name } = user;
 
-                token: jwt.sign({ id }, authConfig.secret, {
-                    expiresIn: authConfig.expiresIn,
-                })
+      return res.json({
+        user: {
+          id,
+          name,
+          email,
+        },
 
-            })
-        }catch(err){
-            return res.status(500).json({ error: err.stack });
-        }
+        token: jwt.sign({ id }, authConfig.secret, {
+          expiresIn: authConfig.expiresIn,
+        }),
+
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
     }
+  }
 }
 export default new AuthController();

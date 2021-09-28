@@ -11,10 +11,10 @@ class Child extends Model {
     });
   }
 
-  associate(models) {
+  /* static associate(models) {
     this.belongTo(models.Class);
     this.belongToMany(models.Guardian, { through: 'Guardian_Child' });
-  }
+  } */
 }
 
 export default Child;
