@@ -5,7 +5,6 @@ import authConfig from '../../config/auth.config';
 class Middleware {
   async verifyAdm(req, res, next) {
     try {
-      console.log("verify adm");
       const token = req.headers.authorization;
 
       if (!token) {
@@ -18,6 +17,7 @@ class Middleware {
         return res.status(401).json({ error: 'Acesso negado.' });
       }
       req.userId = decoded.id;
+      req.usertype = decoded.usertype;
 
       return next();
     } catch (err) {
@@ -39,6 +39,7 @@ class Middleware {
         return res.status(401).json({ error: 'Acesso negado.' });
       }
       req.userId = decoded.id;
+      req.usertype = decoded.usertype;
 
       return next();
     } catch (err) {
@@ -60,6 +61,7 @@ class Middleware {
         return res.status(401).json({ error: 'Acesso negado.' });
       }
       req.userId = decoded.id;
+      req.usertype = decoded.usertype;
 
       return next();
     } catch (err) {
