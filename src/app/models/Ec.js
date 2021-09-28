@@ -15,7 +15,7 @@ class Ec extends Model {
     this.hasMany(models.Class);
     this.hasMany(models.Adm);
     this.hasMany(models.Teacher);
-  }*/
+  } */
 }
 
 export default Ec;
