@@ -12,7 +12,7 @@ module.exports = {
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
     },
-    projectType: {
+    project_type: {
       type: Sequelize.STRING,
       allowNull: false,
     },

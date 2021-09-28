@@ -1,4 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
+import Project from './Project';
 
 class Professionals extends Model {
   static init(sequelize) {
@@ -14,8 +15,10 @@ class Professionals extends Model {
     );
     return this;
   }
-}
 
-// Professional.hasOne(User, { as: 'user_type', foreignKey: 'professional_id' });
+  static associate(models) {
+    Professionals.hasMany(Project, {as: 'Projects'})
+  }
+}
 
 export default Professionals;

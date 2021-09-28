@@ -3,6 +3,7 @@ import UserController from './UserController';
 import Professionals from '../models/Professionals';
 import User from '../models/User';
 import dbConfig from '../../config/database';
+import Project from '../models/Project';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -41,6 +42,30 @@ class TeacherController extends UserController {
       t.rollback();
       return res.status(500).json({ error: err.stack });
     }
+  }
+
+  async createActivity(req, res){
+    try{
+      console.log("create activity");
+      console.log(req.userId);
+      const projectType = 'activity';
+      const {title, description, date} = req.body;
+      const project = await Project.create({fk_idProfessional: req.userId, projectType, title, description, date})
+      console.log("after createa")
+      return res.json({
+        project,
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async updateActivity(req, res){
+    
+  }
+
+  async deleteActivity(req, res){
+    
   }
 }
 

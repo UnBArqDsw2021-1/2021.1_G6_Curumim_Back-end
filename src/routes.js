@@ -20,6 +20,7 @@ routes.get('/list-professionals', TeacherController.list);
 routes.get('/list-guardians', GuardianController.list);
 // Teacher routes
 routes.use(Middleware.verifyTeacher);
+routes.post('/teacher/create-activity', TeacherController.createActivity);
 // Guardian routes
 routes.use(Middleware.verifyGuardian);
 

@@ -6,8 +6,10 @@ import Guardian from '../app/models/Guardian';
 import Ec from '../app/models/Ec';
 import Class from '../app/models/Class';
 import Child from '../app/models/Child';
+import Project from '../app/models/Project';
 
-const models = [User, Ec, Class, Child, Professionals, Guardian];
+const models = [User, Ec, Class, Child, Professionals, Guardian, Project];
+const assoc = [Professionals]
 
 class Database {
   constructor() {
@@ -18,7 +20,7 @@ class Database {
     this.connection = new Sequelize(dbConfig);
 
     models.map((model) => model.init(this.connection));
-    /* models.map((model) => model.associate(this.connection.model)); */
+    assoc.map((model) => model.associate(this.connection.models));
   }
 }
 
