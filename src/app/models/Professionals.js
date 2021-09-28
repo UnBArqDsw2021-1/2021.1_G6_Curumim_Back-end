@@ -1,5 +1,4 @@
 import Sequelize, { Model } from 'sequelize';
-import User from './User.js';
 
 class Professionals extends Model {
   static init(sequelize) {

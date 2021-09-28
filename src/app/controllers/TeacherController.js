@@ -29,7 +29,6 @@ class TeacherController extends UserController {
         cpf,
         birthday,
         email,
-        password,
       });
     } catch (err) {
       console.log(err);
