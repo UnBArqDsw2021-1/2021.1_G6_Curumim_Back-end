@@ -15,8 +15,9 @@ class TeacherController extends UserController {
 
   async register(req, res) {
     try {
+      const usertype = 1;
       const {
-        usertype, name, cpf, birthday, email, password, registration,
+        name, cpf, birthday, email, password, registration,
       } = req.body;
       const { id } = await User.create({
         usertype, name, cpf, birthday, email, password,
