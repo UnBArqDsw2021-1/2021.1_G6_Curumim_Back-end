@@ -1,8 +1,7 @@
-import UserController from './UserController';
 import Project from '../models/Project';
 
-class ActivityController extends UserController {
-  async list(req, res) {
+class ActivityController {
+  async listAll(req, res) {
     try {
       const projects = await Project.findAll({
         where: { projectType: 'activity' },
