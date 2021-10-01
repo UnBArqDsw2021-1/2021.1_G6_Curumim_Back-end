@@ -18,20 +18,20 @@ routes.post('/register-guardian', GuardianController.register);
 routes.use('/adm', Middleware.verifyAdm);
 routes.post('/adm/register-child', AdmController.registerChild);
 routes.post('/adm/register-teacher', TeacherController.register);
-routes.post('/adm/create-activity', ProjectController.changeState, ProjectController.action);
+routes.post('/adm/create-activity', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.action(req, res, next));
 routes.post('/adm/update-activity', ActivityController.updateActivity);
 routes.post('/adm/delete-activity', ActivityController.deleteActivity);
 routes.get('/adm/list-childs', ChildController.listChilds);
 routes.get('/adm/list-professionals', TeacherController.list);
 routes.get('/adm/list-guardians', GuardianController.list);
-routes.get('/adm/list-activities', ActivityController.list);
+//routes.get('/adm/list-activities', ActivityController.list);
 
 // Teacher routes
 routes.use('/teacher', Middleware.verifyTeacher);
-routes.post('/teacher/create-activity', ProjectController.changeState, ProjectController.action);
+routes.post('/teacher/create-activity', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.action(req, res));
 routes.post('/teacher/update-activity', ActivityController.updateActivity);
 routes.post('/teacher/delete-activity', ActivityController.deleteActivity);
-routes.get('/teacher/list-activities', ActivityController.listMyActivities);
+//routes.get('/teacher/list-activities', ActivityController.listMyActivities);
 
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);
