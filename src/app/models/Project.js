@@ -5,7 +5,7 @@ import Professionals from './Professionals';
 class Project extends Model {
   static init(sequelize) {
     super.init({
-      projectType: DataTypes.STRING,
+      project_type: DataTypes.STRING,
       title: DataTypes.STRING,
       description: DataTypes.STRING,
       date: DataTypes.DATE,
