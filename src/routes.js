@@ -5,7 +5,6 @@ import AdmController from './app/controllers/AdmController';
 import TeacherController from './app/controllers/TeacherController';
 import GuardianController from './app/controllers/GuardianController';
 import ChildController from './app/controllers/ChildController';
-import ActivityController from './app/controllers/ActivityController';
 import ProjectController from './app/controllers/ProjectController';
 
 const routes = new Router();
@@ -18,9 +17,9 @@ routes.post('/register-guardian', GuardianController.register);
 routes.use('/adm', Middleware.verifyAdm);
 routes.post('/adm/register-child', AdmController.registerChild);
 routes.post('/adm/register-teacher', TeacherController.register);
-routes.post('/adm/create-activity', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.action(req, res, next));
-routes.post('/adm/update-activity', ActivityController.updateActivity);
-routes.post('/adm/delete-activity', ActivityController.deleteActivity);
+routes.post('/adm/create-project', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.create(req, res));
+routes.put('/adm/update-project', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.update(req, res));
+routes.delete('/adm/delete-project/:type/:id', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.delete(req, res));
 routes.get('/adm/list-childs', ChildController.listChilds);
 routes.get('/adm/list-professionals', TeacherController.list);
 routes.get('/adm/list-guardians', GuardianController.list);
@@ -28,10 +27,10 @@ routes.get('/adm/list-guardians', GuardianController.list);
 
 // Teacher routes
 routes.use('/teacher', Middleware.verifyTeacher);
-routes.post('/teacher/create-activity', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.action(req, res));
-routes.post('/teacher/update-activity', ActivityController.updateActivity);
-routes.post('/teacher/delete-activity', ActivityController.deleteActivity);
-//routes.get('/teacher/list-activities', ActivityController.listMyActivities);
+routes.post('/teacher/create-activity', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.create(req, res));
+routes.put('/teacher/update-activity', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.update(req, res));
+routes.delete('/teacher/delete-activity/:type/:id', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.delete(req, res));
+routes.get('/teacher/list-activities', (req, res) => ProjectController.listByUser(req, res));
 
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);
