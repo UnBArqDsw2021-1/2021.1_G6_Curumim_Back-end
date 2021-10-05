@@ -4,6 +4,7 @@ import Professionals from '../models/Professionals';
 import User from '../models/User';
 import UserController from './UserController';
 import dbConfig from '../../config/database';
+import Class from '../models/Class';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -43,6 +44,47 @@ class AdmController extends UserController {
     }
 
     return res.status(201).json({ message: 'Aluno cadastrado!' });
+  }
+
+  async registerClass(req, res) {
+    try {
+      const { code, capacity } = req.body;
+      await Clss.create({ code, capacity });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    return res.status(201).json({ message: 'Turma cadastrado!' });
+  }
+
+  async updateClass(req, res) {
+    try {
+      const { id, updates } = req.body;
+      const clss = await Class.findByPk(id);
+
+      const updated = await clss.update(updates);
+
+      return res.json({
+        updated,
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async deleteClass(req, res) {
+    try {
+      const { id } = req.params;
+      const clss = await Class.findByPk(id);
+
+      await clss.destroy();
+
+      return res.json({
+        msg: 'Deletada com sucesso',
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
+    }
   }
 }
 
