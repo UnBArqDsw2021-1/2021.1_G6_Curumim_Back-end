@@ -3,6 +3,7 @@ import UserController from './UserController';
 import User from '../models/User';
 import Guardian from '../models/Guardian';
 import dbConfig from '../../config/database';
+import Project from '../models/Project';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -39,6 +40,19 @@ class GuardianController extends UserController {
       });
     } catch (err) {
       t.rollback();
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async getActivityDetails(req, res) {
+    try {
+      const { id } = req.query;
+      const project = await Project.findByPk(id);
+
+      // TODO: Validar se a atividade é do filho
+
+      return res.json(project);
+    } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
   }
