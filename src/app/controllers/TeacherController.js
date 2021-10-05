@@ -3,6 +3,8 @@ import UserController from './UserController';
 import Professionals from '../models/Professionals';
 import User from '../models/User';
 import dbConfig from '../../config/database';
+import Project from '../models/Project';
+import Class from '../models/Class';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -30,7 +32,7 @@ class TeacherController extends UserController {
       }, { transaction: t });
       await Professionals.create({ id, professionalType: 'teacher', registration }, { transaction: t });
       await t.commit();
-      return res.json({
+      return res.status(201).json({
         usertype,
         name,
         cpf,

@@ -6,13 +6,13 @@ module.exports = {
       type: Sequelize.INTEGER,
       autoIncrement: true,
     },
-    fk_idProfessional: {
+    fk_id_professional: {
       type: Sequelize.INTEGER,
       references: { model: 'professionals', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
     },
-    projectType: {
+    project_type: {
       type: Sequelize.STRING,
       allowNull: false,
     },

@@ -16,7 +16,8 @@ class Middleware {
       if (decoded.usertype !== 2) {
         return res.status(401).json({ error: 'Acesso negado.' });
       }
-      req.adminId = decoded.id;
+      req.userId = decoded.id;
+      req.usertype = decoded.usertype;
 
       return next();
     } catch (err) {
@@ -37,7 +38,8 @@ class Middleware {
       if (decoded.usertype !== 1) {
         return res.status(401).json({ error: 'Acesso negado.' });
       }
-      req.adminId = decoded.id;
+      req.userId = decoded.id;
+      req.usertype = decoded.usertype;
 
       return next();
     } catch (err) {
@@ -58,7 +60,8 @@ class Middleware {
       if (decoded.usertype !== 0) {
         return res.status(401).json({ error: 'Acesso negado.' });
       }
-      req.adminId = decoded.id;
+      req.userId = decoded.id;
+      req.usertype = decoded.usertype;
 
       return next();
     } catch (err) {

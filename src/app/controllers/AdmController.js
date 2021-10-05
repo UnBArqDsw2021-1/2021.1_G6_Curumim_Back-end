@@ -44,6 +44,17 @@ class AdmController extends UserController {
 
     return res.status(201).json({ message: 'Aluno cadastrado!' });
   }
+
+  async registerClass(req, res) {
+    try {
+      const { name, registration, birthday } = req.body;
+      await Child.create({ name, registration, birthday });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    return res.status(201).json({ message: 'Aluno cadastrado!' });
+  }
 }
 
 export default new AdmController();
