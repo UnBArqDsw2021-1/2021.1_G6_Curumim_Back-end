@@ -5,6 +5,8 @@ import Guardian from '../models/Guardian';
 import dbConfig from '../../config/database';
 import Project from '../models/Project';
 import GuardianChild from '../models/GuardianChild';
+import Child from '../models/Child';
+import ClassProject from '../models/ClassProject';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -37,11 +39,11 @@ class GuardianController extends UserController {
         },
       });
       await t.commit();
-      guardian_children.forEach(async (element) => {
+      for(const element of guardian_children){
         await element.update({
           fk_idGuardian: id,
         });
-      });
+      };
       return res.json({
         usertype,
         name,
@@ -63,6 +65,39 @@ class GuardianController extends UserController {
       // TODO: Validar se a atividade é do filho
 
       return res.json(project);
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async listChildActivities(req, res){
+    try {
+      const { id } = req.query;
+      const child_val = await GuardianChild.findOne({
+        where: {
+          fk_idChild: id, 
+          fk_idGuardian: req.userId
+        }
+      });
+      if (child_val === null){
+        return res.status(403).json({ msg: "Essa criança não é sua ou não existe." });
+      }
+
+      const { fk_idClass } = await Child.findByPk(id);
+
+      const activities_rel = await ClassProject.findAll({
+        where: {
+          fk_idClass
+        }
+      });
+
+      var activities_list = [];
+      for(const activity_rel of activities_rel){
+        const activity = await Project.findByPk(activity_rel.dataValues.fk_idProject);
+        activities_list.push(activity.dataValues)
+      }
+
+      return res.json({activities_list});
     } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
