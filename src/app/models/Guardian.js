@@ -13,6 +13,10 @@ class Guardian extends Model {
     );
     return this;
   }
+
+  static associate(models) {
+    this.belongsToMany(models.GuardianChild, { as: 'Child', through: 'guardian_children', foreignKey: 'fk_idGuardian' });
+  }
 }
 
 // Guardian.hasOne(User);
