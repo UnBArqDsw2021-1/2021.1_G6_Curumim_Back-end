@@ -16,6 +16,7 @@ class Child extends Model {
     this.belongToMany(models.Guardian, { through: 'Guardian_Child' });
   } */
   static associate(models) {
+    this.belongsTo(models.Class, { foreignKey: 'fk_idClass', as: 'Class' });
     this.belongsToMany(models.GuardianChild, { as: 'Guardian', through: 'guardian_children', foreignKey: 'fk_idChild' });
   }
 }
