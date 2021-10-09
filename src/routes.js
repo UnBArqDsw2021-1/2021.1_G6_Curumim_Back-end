@@ -42,6 +42,6 @@ routes.get('/teacher/list-activities', (req, res) => ProjectController.listByUse
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);
 routes.get('/guardian/get-activity', GuardianController.getActivityDetails);
-routes.get('/guardian/get-child-activities', GuardianController.listChildActivities)
+routes.get('/guardian/get-child-activities', GuardianController.listChildActivities);
 
 export default routes;

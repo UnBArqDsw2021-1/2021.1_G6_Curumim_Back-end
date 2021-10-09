@@ -122,13 +122,13 @@ class AdmController extends UserController {
       const guardian_child = await GuardianChild.findOne({
         where: {
           fk_id_child: id,
-          guardian_cpf: cpf
-        }
+          guardian_cpf: cpf,
+        },
       });
       if (guardian_child === null) {
         return res.status(404).json({ message: 'Responsável não encontrado para essa criança.' });
       }
-      
+
       await guardian_child.destroy();
 
       return res.status(200).json({ message: 'Responsável deletado!' });
@@ -144,10 +144,10 @@ class AdmController extends UserController {
       // TODO: adicionar id EC na hora de criar a classe
       const class_ver = await Class.findOne({
         where: {
-          code: code
-        }
-      })
-      if(class_ver !== null){
+          code,
+        },
+      });
+      if (class_ver !== null) {
         return res.status(409).json({ message: 'Já existe uma turma com esse código.', class: class_ver });
       }
 
@@ -175,11 +175,10 @@ class AdmController extends UserController {
 
       const child = await Child.findByPk(child_id);
       child.update({
-        fk_idClass: class_id
-      }) 
+        fk_idClass: class_id,
+      });
 
-      return res.status(200).json({ msg: "Aluno cadastrado na turma!" });
-
+      return res.status(200).json({ msg: 'Aluno cadastrado na turma!' });
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -191,11 +190,10 @@ class AdmController extends UserController {
 
       const child = await Child.findByPk(child_id);
       child.update({
-        fk_idClass: null
-      }) 
+        fk_idClass: null,
+      });
 
-      return res.status(200).json({ msg: "Aluno removido da turma!" });
-
+      return res.status(200).json({ msg: 'Aluno removido da turma!' });
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

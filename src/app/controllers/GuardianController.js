@@ -39,11 +39,11 @@ class GuardianController extends UserController {
         },
       });
       await t.commit();
-      for(const element of guardian_children){
+      for (const element of guardian_children) {
         await element.update({
           fk_idGuardian: id,
         });
-      };
+      }
       return res.json({
         usertype,
         name,
@@ -70,34 +70,34 @@ class GuardianController extends UserController {
     }
   }
 
-  async listChildActivities(req, res){
+  async listChildActivities(req, res) {
     try {
       const { id } = req.query;
       const child_val = await GuardianChild.findOne({
         where: {
-          fk_idChild: id, 
-          fk_idGuardian: req.userId
-        }
+          fk_idChild: id,
+          fk_idGuardian: req.userId,
+        },
       });
-      if (child_val === null){
-        return res.status(403).json({ msg: "Essa criança não é sua ou não existe." });
+      if (child_val === null) {
+        return res.status(403).json({ msg: 'Essa criança não é sua ou não existe.' });
       }
 
       const { fk_idClass } = await Child.findByPk(id);
 
       const activities_rel = await ClassProject.findAll({
         where: {
-          fk_idClass
-        }
+          fk_idClass,
+        },
       });
 
-      var activities_list = [];
-      for(const activity_rel of activities_rel){
+      const activities_list = [];
+      for (const activity_rel of activities_rel) {
         const activity = await Project.findByPk(activity_rel.dataValues.fk_idProject);
-        activities_list.push(activity.dataValues)
+        activities_list.push(activity.dataValues);
       }
 
-      return res.json({activities_list});
+      return res.json({ activities_list });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
