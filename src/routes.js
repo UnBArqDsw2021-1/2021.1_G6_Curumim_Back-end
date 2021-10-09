@@ -16,14 +16,16 @@ routes.post('/register-guardian', GuardianController.register);
 // Admin routes
 routes.use('/adm', Middleware.verifyAdm);
 routes.post('/adm/register-child', AdmController.registerChild);
+routes.post('/adm/register-guardian-child', AdmController.registerGuardianChild);
 routes.post('/adm/register-teacher', TeacherController.register);
 routes.post('/adm/create-project', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.create(req, res));
 routes.put('/adm/update-project', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.update(req, res));
 routes.delete('/adm/delete-project/:type/:id', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.delete(req, res));
 routes.get('/adm/list-childs', ChildController.listChilds);
+routes.get('/adm/list-childs-rel', ChildController.listChildrenRelations);
 routes.get('/adm/list-professionals', TeacherController.list);
 routes.get('/adm/list-guardians', GuardianController.list);
-//routes.get('/adm/list-activities', ActivityController.list);
+// routes.get('/adm/list-activities', ActivityController.list);
 
 // Teacher routes
 routes.use('/teacher', Middleware.verifyTeacher);
