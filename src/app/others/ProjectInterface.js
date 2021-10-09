@@ -34,8 +34,6 @@ class ProjectInterface {
           if (req.userId === undefined) {
             return res.status(401).json({ error: 'Acesso negado.' });
           }
-
-          console.log(this._ProjectType);
     
           const project = await Project.create({
             fk_idProfessional: req.userId, project_type: this._ProjectType, title, description, date,
