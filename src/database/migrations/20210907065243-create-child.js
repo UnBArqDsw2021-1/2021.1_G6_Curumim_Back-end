@@ -20,6 +20,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       unique: true,
+      autoIncrement: true,
     },
     created_at: {
       type: Sequelize.DATE,
