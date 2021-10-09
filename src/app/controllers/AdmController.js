@@ -5,6 +5,7 @@ import User from '../models/User';
 import GuardianChild from '../models/GuardianChild';
 import UserController from './UserController';
 import dbConfig from '../../config/database';
+import Class from '../models/Class';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -114,15 +115,90 @@ class AdmController extends UserController {
     }
   }
 
+  async deleteGuardianChild(req, res) {
+    try {
+      const { id, cpf } = req.body;
+
+      const guardian_child = await GuardianChild.findOne({
+        where: {
+          fk_id_child: id,
+          guardian_cpf: cpf
+        }
+      });
+      if (guardian_child === null) {
+        return res.status(404).json({ message: 'Responsável não encontrado para essa criança.' });
+      }
+      
+      await guardian_child.destroy();
+
+      return res.status(200).json({ message: 'Responsável deletado!' });
+    } catch (err) {
+      return res.status(500).json({ error: err.message, stack: err.stack });
+    }
+  }
+
   async registerClass(req, res) {
     try {
-      const { name, registration, birthday } = req.body;
-      await Child.create({ name, registration, birthday });
+      const { code, capacity } = req.body;
+      // const {fk_idEc} = await Professionals.findByPk(req.userId);
+      // TODO: adicionar id EC na hora de criar a classe
+      const class_ver = await Class.findOne({
+        where: {
+          code: code
+        }
+      })
+      if(class_ver !== null){
+        return res.status(409).json({ message: 'Já existe uma turma com esse código.', class: class_ver });
+      }
+
+      const class_obj = await Class.create({ code, capacity });
+
+      return res.status(201).json({ message: 'Turma Cadastrada!', class: class_obj });
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
+  }
 
-    return res.status(201).json({ message: 'Aluno cadastrado!' });
+  async listClasses(req, res) {
+    try {
+      const classes = await Class.findAll();
+
+      return res.status(200).json({ classes });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async registerChildClass(req, res) {
+    try {
+      const { class_id, child_id } = req.body;
+
+      const child = await Child.findByPk(child_id);
+      child.update({
+        fk_idClass: class_id
+      }) 
+
+      return res.status(200).json({ msg: "Aluno cadastrado na turma!" });
+
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async removeChildClass(req, res) {
+    try {
+      const { child_id } = req.body;
+
+      const child = await Child.findByPk(child_id);
+      child.update({
+        fk_idClass: null
+      }) 
+
+      return res.status(200).json({ msg: "Aluno removido da turma!" });
+
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
   }
 }
 
