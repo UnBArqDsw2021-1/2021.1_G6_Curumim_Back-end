@@ -7,6 +7,7 @@ import Project from '../models/Project';
 import GuardianChild from '../models/GuardianChild';
 import Child from '../models/Child';
 import ClassProject from '../models/ClassProject';
+import Anotation from '../models/Anotation';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -98,6 +99,31 @@ class GuardianController extends UserController {
       }
 
       return res.json({ activities_list });
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async listChildAnotations(req, res) {
+    try {
+      const { id } = req.query;
+      const child_val = await GuardianChild.findOne({
+        where: {
+          fk_idChild: id,
+          fk_idGuardian: req.userId,
+        },
+      });
+      if (child_val === null) {
+        return res.status(403).json({ msg: 'Essa criança não é sua ou não existe.' });
+      }
+
+      const anotations = await Anotation.findAll({
+        where: {
+          fk_idChild: id,
+        },
+      });
+
+      return res.json({ anotations });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
