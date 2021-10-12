@@ -6,17 +6,18 @@ module.exports = {
       type: Sequelize.INTEGER,
       autoIncrement: true,
     },
-    fk_idProfessional: {
+    fk_id_professional: {
       type: Sequelize.INTEGER,
       references: { model: 'professionals', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
     },
-    fk_idChild: {
+    fk_id_child: {
       type: Sequelize.INTEGER,
       references: { model: 'children', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
+      allowNull: false,
     },
     title: {
       type: Sequelize.STRING,
