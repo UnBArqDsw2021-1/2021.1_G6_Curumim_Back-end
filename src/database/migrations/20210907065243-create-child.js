@@ -6,7 +6,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       autoIncrement: true,
     },
-    fk_idClass: {
+    fk_id_class: {
       type: Sequelize.INTEGER,
       references: { model: 'classes', key: 'id' },
       onUpdate: 'CASCADE',
@@ -20,6 +20,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false,
       unique: true,
+      autoIncrement: true,
     },
     created_at: {
       type: Sequelize.DATE,

@@ -11,11 +11,12 @@ class Ec extends Model {
     });
   }
 
-/*  associate(models) {
-    this.hasMany(models.Class);
-    this.hasMany(models.Adm);
-    this.hasMany(models.Teacher);
-  } */
+  // static associate(models) {
+  //   this.hasMany(models.Class, { foreignKey: 'fk_idEc', as: 'Classes' });
+  //   // this.hasMany(models.Class);
+  //   // this.hasMany(models.Adm);
+  //   // this.hasMany(models.Teacher);
+  // }
 }
 
 export default Ec;
