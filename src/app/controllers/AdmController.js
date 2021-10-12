@@ -1,17 +1,202 @@
+import Sequelize from 'sequelize';
 import Child from '../models/Child';
+import Professionals from '../models/Professionals';
+import User from '../models/User';
+import GuardianChild from '../models/GuardianChild';
 import UserController from './UserController';
+import dbConfig from '../../config/database';
+import Class from '../models/Class';
 
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
+  dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
 
 class AdmController extends UserController {
-  async registerChild(req, res) {
+  async register(req, res) {
+    const t = await sequelize.transaction();
     try {
-      const { name, registration, birthday } = req.body;
-      await Child.create({ name, registration, birthday });
+      const usertype = 2;
+      const {
+        name, cpf, birthday, email, password, registration,
+      } = req.body;
+      const { id } = await User.create({
+        usertype, name, cpf, birthday, email, password,
+      }, { transaction: t });
+      await Professionals.create({ id, professionalType: 'adm', registration }, { transaction: t });
+      await t.commit();
+      return res.json({
+        usertype,
+        name,
+        cpf,
+        birthday,
+        email,
+      });
+    } catch (err) {
+      t.rollback();
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async registerChild(req, res) {
+    const t = await sequelize.transaction();
+    try {
+      const {
+        name, birthday, cpf1, cpf2,
+      } = req.body;
+      const child = await Child.create({ name, birthday }, { transaction: t });
+      // cpfs.forEach()
+      if (cpf1 !== undefined) {
+        const user = await User.findOne({
+          where: {
+            cpf: cpf1,
+          },
+        });
+        if (user !== null) {
+          await GuardianChild.create({ guardian_cpf: cpf1, fk_idChild: child.id, fk_idGuardian: user.id }, { transaction: t });
+        } else {
+          await GuardianChild.create({ guardian_cpf: cpf1, fk_idChild: child.id, fk_idGuardian: null }, { transaction: t });
+        }
+      }
+      if (cpf2 !== undefined) {
+        const user = await User.findOne({
+          where: {
+            cpf: cpf2,
+          },
+        });
+        if (user !== null) {
+          await GuardianChild.create({ guardian_cpf: cpf2, fk_idChild: child.id, fk_idGuardian: user.id }, { transaction: t });
+        } else {
+          await GuardianChild.create({ guardian_cpf: cpf2, fk_idChild: child.id, fk_idGuardian: null }, { transaction: t });
+        }
+      }
+      await t.commit();
+      return res.status(201).json({ message: 'Aluno cadastrado!', child });
+    } catch (err) {
+      t.rollback();
+      return res.status(500).json({ error: err.message, stack: err.stack });
+    }
+  }
+
+  async registerGuardianChild(req, res) {
+    const t = await sequelize.transaction();
+    try {
+      const { id, cpf } = req.body;
+
+      const child = await Child.findByPk(id);
+      if (child === null) {
+        return res.status(404).json({ message: 'Criança não foi encontrada.' });
+      }
+
+      const guardian_child_validate = await GuardianChild.findOne({
+        where: {
+          guardian_cpf: cpf,
+          fk_idChild: id,
+        },
+      });
+      if (guardian_child_validate !== null) {
+        return res.status(201).json({ message: 'Responsável já está cadastrado.' });
+      }
+
+      const user = await User.findOne({
+        where: {
+          cpf,
+        },
+      });
+      if (user !== null) {
+        await GuardianChild.create({ guardian_cpf: cpf, fk_idChild: id, fk_idGuardian: user.id }, { transaction: t });
+      } else {
+        await GuardianChild.create({ guardian_cpf: cpf, fk_idChild: id, fk_idGuardian: null }, { transaction: t });
+      }
+
+      await t.commit();
+      return res.status(201).json({ message: 'Responsável cadastrado!' });
+    } catch (err) {
+      t.rollback();
+      return res.status(500).json({ error: err.message, stack: err.stack });
+    }
+  }
+
+  async deleteGuardianChild(req, res) {
+    try {
+      const { id, cpf } = req.body;
+
+      const guardian_child = await GuardianChild.findOne({
+        where: {
+          fk_id_child: id,
+          guardian_cpf: cpf,
+        },
+      });
+      if (guardian_child === null) {
+        return res.status(404).json({ message: 'Responsável não encontrado para essa criança.' });
+      }
+
+      await guardian_child.destroy();
+
+      return res.status(200).json({ message: 'Responsável deletado!' });
+    } catch (err) {
+      return res.status(500).json({ error: err.message, stack: err.stack });
+    }
+  }
+
+  async registerClass(req, res) {
+    try {
+      const { code, capacity } = req.body;
+      // const {fk_idEc} = await Professionals.findByPk(req.userId);
+      // TODO: adicionar id EC na hora de criar a classe
+      const class_ver = await Class.findOne({
+        where: {
+          code,
+        },
+      });
+      if (class_ver !== null) {
+        return res.status(409).json({ message: 'Já existe uma turma com esse código.', class: class_ver });
+      }
+
+      const class_obj = await Class.create({ code, capacity });
+
+      return res.status(201).json({ message: 'Turma Cadastrada!', class: class_obj });
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
+  }
 
-    return res.status(201).json({ message: 'Aluno cadastrado!' });
+  async listClasses(req, res) {
+    try {
+      const classes = await Class.findAll();
+
+      return res.status(200).json({ classes });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async registerChildClass(req, res) {
+    try {
+      const { class_id, child_id } = req.body;
+
+      const child = await Child.findByPk(child_id);
+      child.update({
+        fk_idClass: class_id,
+      });
+
+      return res.status(200).json({ msg: 'Aluno cadastrado na turma!' });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async removeChildClass(req, res) {
+    try {
+      const { child_id } = req.body;
+
+      const child = await Child.findByPk(child_id);
+      child.update({
+        fk_idClass: null,
+      });
+
+      return res.status(200).json({ msg: 'Aluno removido da turma!' });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
   }
 }
 

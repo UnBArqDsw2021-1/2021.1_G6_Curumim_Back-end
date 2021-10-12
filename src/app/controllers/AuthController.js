@@ -4,7 +4,6 @@ import User from '../models/User';
 import authConfig from '../../config/auth.config';
 
 class AuthController {
-  
   async authenticate(req, res) {
 
   }
@@ -17,7 +16,7 @@ class AuthController {
 
   }
 
-  async login(req, rest) {
+  async login(req, res) {
     try {
       const { email, password } = req.body;
 
@@ -40,7 +39,7 @@ class AuthController {
           usertype,
         },
 
-        token: jwt.sign({ id }, authConfig.secret, {
+        token: jwt.sign({ id, usertype }, authConfig.secret, {
           expiresIn: authConfig.expiresIn,
         }),
 

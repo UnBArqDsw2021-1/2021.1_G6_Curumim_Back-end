@@ -1,5 +1,5 @@
-import { DataTypes, Model } from 'sequelize';
-import User from './User.js';
+import { Model, DataTypes } from 'sequelize';
+import Project from './Project';
 
 class Professionals extends Model {
   static init(sequelize) {
@@ -10,13 +10,14 @@ class Professionals extends Model {
       },
       {
         sequelize,
-        // options
       },
     );
     return this;
   }
-}
 
-// Professional.hasOne(User, { as: 'user_type', foreignKey: 'professional_id' });
+  static associate(models) {
+    Professionals.hasMany(models.Project, { foreignKey: 'fk_idProfessional', as: 'Projects' });
+  }
+}
 
 export default Professionals;

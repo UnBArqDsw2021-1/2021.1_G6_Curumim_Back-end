@@ -18,4 +18,3 @@ Criar e subir todos os Containeres
 ### `make clean`
 
 Limpa todo seu ambiente
-

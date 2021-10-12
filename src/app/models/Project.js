@@ -1,9 +1,11 @@
 import { Model, DataTypes } from 'sequelize';
+import Class from './Class';
+import Professionals from './Professionals';
 
 class Project extends Model {
   static init(sequelize) {
     super.init({
-      projectType: DataTypes.STRING,
+      project_type: DataTypes.STRING,
       title: DataTypes.STRING,
       description: DataTypes.STRING,
       date: DataTypes.DATE,
@@ -12,9 +14,10 @@ class Project extends Model {
     });
   }
 
-  /*  associate(models) {
-    this.belongsTo(models.Professional, {as: 'fk_idProfessional'})
-  } */
+  static associate(models) {
+    this.belongsTo(models.Professionals, { foreignKey: 'fk_idProfessional', as: 'Professional' });
+    this.belongsToMany(models.Class, { as: 'Class', through: 'ClassProject', foreignKey: 'fk_idProject' });
+  }
 }
 
 export default Project;
