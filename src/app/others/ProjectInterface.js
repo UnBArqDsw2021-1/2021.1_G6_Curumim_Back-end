@@ -1,3 +1,4 @@
+import ClassProject from '../models/ClassProject';
 import Project from '../models/Project';
 
 class ProjectInterface {
@@ -29,17 +30,19 @@ class ProjectInterface {
     
       async create(req, res) {
         try {
-          const { title, description, date } = req.body;
+          const { title, description, date, class_id } = req.body;
     
           if (req.userId === undefined) {
             return res.status(401).json({ error: 'Acesso negado.' });
           }
-
-          console.log(this._ProjectType);
     
           const project = await Project.create({
             fk_idProfessional: req.userId, project_type: this._ProjectType, title, description, date,
           });
+          
+          await ClassProject.create({
+            fk_idClass: class_id, fk_idProject: project.id
+          })
     
           return res.status(201).json({
             project,

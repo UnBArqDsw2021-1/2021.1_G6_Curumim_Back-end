@@ -1,8 +1,7 @@
 import ProjectInterface from '../others/ProjectInterface';
 
 class ActivityController extends ProjectInterface {
-  
-  constructor(){
+  constructor() {
     super();
     this._ProjectType = 'activity';
   }
