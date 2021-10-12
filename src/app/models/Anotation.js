@@ -1,19 +1,18 @@
-import { Model, DataTypes } from 'sequelize';
+import { DataTypes, Model } from "sequelize";
 
-class Anotation extends Model {
-  static init(sequelize) {
+const Model = Sequelize.Model;
+class Anotation extends Model { 
+  static init(sequelize){
     super.init({
       title: DataTypes.STRING,
       description: DataTypes.STRING,
-    }, {
+    },{
       sequelize,
-    });
+    })
   }
-
-/*   associate(models) {
-    this.belongTo(models.Teacher, { foreingKey: 'fk_IdTeacher' });
-    this.belongTo(models.Child, { foreingKey: 'fk_IdChild' });
-  } */
+  static associate(models) {
+    this.belongsTo(models.Child, { foreignKey: 'fk_idChild' });
+    this.belongsTo(models.Professionals, { foreignKey: 'fk_idProfessional' });
+  }
 }
-
 export default Anotation;

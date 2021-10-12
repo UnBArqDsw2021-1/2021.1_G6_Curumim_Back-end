@@ -7,6 +7,8 @@ import BoardController from './app/controllers/BoardController';
 import GuardianController from './app/controllers/GuardianController';
 import ChildController from './app/controllers/ChildController';
 import ProjectController from './app/controllers/ProjectController';
+import AnotationController from './app/controllers/AnotationController';
+import Anotation from './app/models/Anotation';
 
 const routes = new Router();
 // Unverified routes
@@ -31,6 +33,7 @@ routes.get('/adm/list-childs-rel', ChildController.listChildrenRelations);
 routes.get('/adm/list-professionals', TeacherController.list);
 routes.get('/adm/list-guardians', GuardianController.list);
 routes.get('/adm/list-classes', AdmController.listClasses);
+routes.get('/adm/list-anotations', AnotationController.listAll);
 // routes.get('/adm/list-activities', ActivityController.list);
 
 // Teacher routes
@@ -39,6 +42,10 @@ routes.post('/teacher/create-activity', (req, res, next) => ProjectController.ch
 routes.put('/teacher/update-activity', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.update(req, res));
 routes.delete('/teacher/delete-activity/:type/:id', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.delete(req, res));
 routes.get('/teacher/list-activities', (req, res) => ProjectController.listByUser(req, res));
+routes.post('/teacher/create-anotation', AnotationController.create);
+routes.put('/teacher/update-anotation', AnotationController.update);
+routes.delete('/teacher/delete-anotation/:id', AnotationController.delete);
+routes.get('/teacher/list-anotations', AnotationController.listMine);
 
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);
