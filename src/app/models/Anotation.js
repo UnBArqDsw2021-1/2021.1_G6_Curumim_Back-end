@@ -1,9 +1,8 @@
 import { DataTypes, Model } from "sequelize";
-
-const Model = Sequelize.Model;
 class Anotation extends Model { 
   static init(sequelize){
     super.init({
+      fk_idChild: DataTypes.INTEGER,
       title: DataTypes.STRING,
       description: DataTypes.STRING,
     },{

@@ -8,13 +8,13 @@ import GuardianController from './app/controllers/GuardianController';
 import ChildController from './app/controllers/ChildController';
 import ProjectController from './app/controllers/ProjectController';
 import AnotationController from './app/controllers/AnotationController';
-import Anotation from './app/models/Anotation';
 
 const routes = new Router();
 // Unverified routes
 routes.post('/login', AuthController.login);
 routes.post('/dev/register-adm', AdmController.register);
 routes.post('/register-guardian', GuardianController.register);
+routes.get('/board/:childId', BoardController.checkBoard);
 
 // Admin routes
 routes.use('/adm', Middleware.verifyAdm);
