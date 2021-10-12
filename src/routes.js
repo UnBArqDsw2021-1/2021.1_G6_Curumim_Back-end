@@ -42,9 +42,9 @@ routes.put('/teacher/update-activity', (req, res, next) => ProjectController.cha
 routes.delete('/teacher/delete-activity/:type/:id', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.delete(req, res));
 routes.get('/teacher/list-activities', (req, res) => ProjectController.listByUser(req, res));
 routes.post('/teacher/create-anotation', AnotationController.create);
-routes.put('/teacher/update-anotation', AnotationController.update)
-routes.delete('/teacher/delete-anotation', AnotationController.delete)
-routes.get('/teacher/list-anotations', AnotationController.listMine)
+routes.put('/teacher/update-anotation', AnotationController.update);
+routes.delete('/teacher/delete-anotation/:id', AnotationController.delete);
+routes.get('/teacher/list-anotations', AnotationController.listMine);
 
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);
