@@ -20,7 +20,7 @@ class ProjectInterface {
       async listByUser(req, res) {
         try {
           const projects = await Project.findAll({
-            where: { project_type: this._ProjectType, fk_idProfessional: req.userId },
+            where: { projectType: this._ProjectType, fk_idProfessional: req.userId },
           });
           return res.json({ projects });
         } catch (err) {
@@ -37,7 +37,7 @@ class ProjectInterface {
           }
     
           const project = await Project.create({
-            fk_idProfessional: req.userId, project_type: this._ProjectType, title, description, date,
+            fk_idProfessional: req.userId, projectType: this._ProjectType, title, description, date,
           });
           
           await ClassProject.create({
@@ -61,7 +61,7 @@ class ProjectInterface {
             return res.status(401).json({ error: 'Acesso negado.' });
           }
 
-          if (projectType !== project.project_type){
+          if (projectType !== project.projectType){
             return res.status(401).json({ error: 'Operação inválida.' });
           }
 
@@ -73,6 +73,24 @@ class ProjectInterface {
         } catch (err) {
           return res.status(500).json({ error: err.stack });
         }
+      }
+
+      async show(req, res){
+        const { id } = req.params;
+        try{
+          const project = await Project.findOne({
+            where: { projectType: this._ProjectType, id: id },
+          })
+
+          if(!project){
+            return res.status(404).json({message: 'Nao encontrado.'})
+          }
+
+          return res.status(200).json(project);
+        }catch(err){
+          res.status(500).json(err.message)
+        }
+        
       }
     
       async delete(req, res) {
