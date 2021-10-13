@@ -7,7 +7,6 @@ import GuardianController from './app/controllers/GuardianController';
 import ChildController from './app/controllers/ChildController';
 import ProjectController from './app/controllers/ProjectController';
 import AnotationController from './app/controllers/AnotationController';
-import Anotation from './app/models/Anotation';
 
 const routes = new Router();
 // Unverified routes
@@ -48,8 +47,8 @@ routes.get('/teacher/list-anotations', AnotationController.listMine);
 
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);
-routes.get('/guardian/get-activity', GuardianController.getActivityDetails);
 routes.get('/guardian/get-child-activities', GuardianController.listChildActivities);
 routes.get('/guardian/get-anotations/:id', GuardianController.listChildAnotations);
+routes.get('/guardian/:type/:id', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.show(req, res));
 
 export default routes;

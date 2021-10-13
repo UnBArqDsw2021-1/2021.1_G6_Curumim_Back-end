@@ -50,6 +50,10 @@ class ProjectController {
         await this.#currentType.update(req, res);
     }
 
+    async show (req, res) {
+        await this.#currentType.show(req, res);
+    }
+
     async delete(req, res) {
         await this.#currentType.delete(req, res);
     }    
