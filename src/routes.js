@@ -14,7 +14,6 @@ const routes = new Router();
 routes.post('/login', AuthController.login);
 routes.post('/dev/register-adm', AdmController.register);
 routes.post('/register-guardian', GuardianController.register);
-routes.get('/board/:childId', BoardController.checkBoard);
 
 // Admin routes
 routes.use('/adm', Middleware.verifyAdm);
@@ -51,5 +50,5 @@ routes.get('/teacher/list-anotations', AnotationController.listMine);
 routes.use('/guardian', Middleware.verifyGuardian);
 routes.get('/guardian/get-activity', GuardianController.getActivityDetails);
 routes.get('/guardian/get-child-activities', GuardianController.listChildActivities);
-
+routes.get('/guardian/board/:childId', Middleware.checkChild, BoardController.checkBoard);
 export default routes;
