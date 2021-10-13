@@ -51,4 +51,6 @@ routes.use('/guardian', Middleware.verifyGuardian);
 routes.get('/guardian/get-activity', GuardianController.getActivityDetails);
 routes.get('/guardian/get-child-activities', GuardianController.listChildActivities);
 routes.get('/guardian/board/:childId', Middleware.checkChild, BoardController.checkBoard);
+routes.get('/guardian/get-anotations/:id', GuardianController.listChildAnotations);
+
 export default routes;

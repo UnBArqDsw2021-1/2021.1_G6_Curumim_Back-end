@@ -7,6 +7,7 @@ import Project from '../models/Project';
 import GuardianChild from '../models/GuardianChild';
 import Child from '../models/Child';
 import ClassProject from '../models/ClassProject';
+import Anotation from '../models/Anotation';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -26,24 +27,31 @@ class GuardianController extends UserController {
     const t = await sequelize.transaction();
     try {
       const usertype = 0;
+
       const {
         name, cpf, birthday, email, password, adress,
       } = req.body;
+
       const { id } = await User.create({
         usertype, name, cpf, birthday, email, password,
       }, { transaction: t });
+
       await Guardian.create({ id, adress }, { transaction: t });
+
       const guardian_children = await GuardianChild.findAll({
         where: {
           guardian_cpf: cpf,
         },
       });
+
       await t.commit();
+
       for (const element of guardian_children) {
         await element.update({
           fk_idGuardian: id,
         });
       }
+
       return res.json({
         usertype,
         name,
@@ -98,6 +106,31 @@ class GuardianController extends UserController {
       }
 
       return res.json({ activities_list });
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async listChildAnotations(req, res) {
+    try {
+      const { id } = req.params;
+      const child_val = await GuardianChild.findOne({
+        where: {
+          fk_idChild: id,
+          fk_idGuardian: req.userId,
+        },
+      });
+      if (child_val === null) {
+        return res.status(403).json({ msg: 'Essa criança não é sua ou não existe.' });
+      }
+
+      const anotations = await Anotation.findAll({
+        where: {
+          fk_idChild: id,
+        },
+      });
+
+      return res.json({ anotations });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
