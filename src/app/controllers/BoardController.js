@@ -15,6 +15,14 @@ class BoardController {
         include: { association: 'turma' },
       });
 
+      if (!child) {
+        return res.status(401).json({ message: 'Criança não encontrada!' });
+      }
+
+      if (!child.turma) {
+        return res.status(401).json({ message: 'Nenhuma turma encontrada para esta criança!' });
+      }
+
       let { Project: projects } = await Class.findByPk(child.turma.id, {
 
         include: [
