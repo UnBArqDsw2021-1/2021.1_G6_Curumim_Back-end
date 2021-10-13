@@ -27,24 +27,31 @@ class GuardianController extends UserController {
     const t = await sequelize.transaction();
     try {
       const usertype = 0;
+
       const {
         name, cpf, birthday, email, password, adress,
       } = req.body;
+
       const { id } = await User.create({
         usertype, name, cpf, birthday, email, password,
       }, { transaction: t });
+
       await Guardian.create({ id, adress }, { transaction: t });
+
       const guardian_children = await GuardianChild.findAll({
         where: {
           guardian_cpf: cpf,
         },
       });
+
       await t.commit();
+
       for (const element of guardian_children) {
         await element.update({
           fk_idGuardian: id,
         });
       }
+
       return res.json({
         usertype,
         name,
@@ -106,7 +113,7 @@ class GuardianController extends UserController {
 
   async listChildAnotations(req, res) {
     try {
-      const { id } = req.query;
+      const { id } = req.params;
       const child_val = await GuardianChild.findOne({
         where: {
           fk_idChild: id,
