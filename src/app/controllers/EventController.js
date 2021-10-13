@@ -1,4 +1,4 @@
-import ProjectInterface from '../others/ProjectInterface';
+import ProjectInterface from '../utils/ProjectInterface';
 
 class EventController extends ProjectInterface {
   constructor() {
