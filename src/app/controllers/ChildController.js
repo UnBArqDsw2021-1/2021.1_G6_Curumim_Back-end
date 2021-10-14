@@ -15,8 +15,8 @@ class ChildController {
   async listChildrenRelations(req, res) {
     try {
       const children = await Child.findAll();
-      const guardian_child = await GuardianChild.findAll();
-      return res.json({ children, relations: guardian_child });
+      const guardian_children  = await GuardianChild.findAll();
+      return res.json({ children, relations: guardian_children  });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
