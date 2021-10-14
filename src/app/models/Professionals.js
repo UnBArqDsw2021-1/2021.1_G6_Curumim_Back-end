@@ -1,16 +1,15 @@
-import Sequelize, { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import Project from './Project';
 
 class Professionals extends Model {
   static init(sequelize) {
     super.init(
       {
-        registration: Sequelize.INTEGER,
-        professionalType: Sequelize.STRING,
+        registration: DataTypes.INTEGER,
+        professionalType: DataTypes.STRING,
       },
       {
         sequelize,
-        // options
       },
     );
     return this;

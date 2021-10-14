@@ -1,6 +1,6 @@
+import dbConfig from '../config/database';
 import Sequelize from 'sequelize';
 import User from '../app/models/User';
-import dbConfig from '../config/database';
 import Professionals from '../app/models/Professionals';
 import Guardian from '../app/models/Guardian';
 import Ec from '../app/models/Ec';

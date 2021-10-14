@@ -1,4 +1,3 @@
-import routes from '../../routes';
 import Anotation from '../models/Anotation';
 
 class AnotationController {

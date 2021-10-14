@@ -1,11 +1,10 @@
-import { Sequelize } from "sequelize";
-
-const Model = Sequelize.Model;
+import { DataTypes, Model } from "sequelize";
 class Anotation extends Model { 
   static init(sequelize){
     super.init({
-      title: Sequelize.STRING,
-      description: Sequelize.STRING,
+      fk_idChild: DataTypes.INTEGER,
+      title: DataTypes.STRING,
+      description: DataTypes.STRING,
     },{
       sequelize,
     })

@@ -3,6 +3,7 @@ import AuthController from './app/controllers/AuthController';
 import Middleware from './app/middlewares/middleware';
 import AdmController from './app/controllers/AdmController';
 import TeacherController from './app/controllers/TeacherController';
+import BoardController from './app/controllers/BoardController';
 import GuardianController from './app/controllers/GuardianController';
 import ChildController from './app/controllers/ChildController';
 import ProjectController from './app/controllers/ProjectController';
@@ -48,6 +49,7 @@ routes.get('/teacher/list-anotations', AnotationController.listMine);
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);
 routes.get('/guardian/get-child-activities', GuardianController.listChildActivities);
+routes.get('/guardian/board/:childId', Middleware.checkChild, BoardController.checkBoard);
 routes.get('/guardian/get-anotations/:id', GuardianController.listChildAnotations);
 routes.get('/guardian/:type/:id', (req, res, next) => ProjectController.changeState(req, res, next), (req, res) => ProjectController.show(req, res));
 
