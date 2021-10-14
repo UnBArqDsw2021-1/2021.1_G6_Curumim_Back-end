@@ -61,7 +61,9 @@ class ProjectInterface {
             return res.status(401).json({ error: 'Acesso negado.' });
           }
 
+
           if (projectType !== project.projectType){
+
             return res.status(401).json({ error: 'Operação inválida.' });
           }
 
@@ -74,7 +76,7 @@ class ProjectInterface {
           return res.status(500).json({ error: err.stack });
         }
       }
-
+        
       async show(req, res){
         const { id } = req.params;
         try{
