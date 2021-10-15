@@ -33,7 +33,7 @@ class AuthController {
       }
       const { id, name, usertype } = user;
 
-      let list = [];
+      var list = [];
 
       if (usertype === 0) {
         const relations = await GuardianChild.findAll({
@@ -49,6 +49,7 @@ class AuthController {
       } else {
         list = undefined;
       }
+
 
       return res.json({
         user: {

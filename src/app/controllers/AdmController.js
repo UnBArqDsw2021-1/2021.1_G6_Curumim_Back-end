@@ -145,7 +145,7 @@ class AdmController extends UserController {
 
   async registerClass(req, res) {
     try {
-      const { code, capacity } = req.body;
+      const { code, capacity, id_teacher } = req.body;
 
       // const {fk_idEc} = await Professionals.findByPk(req.userId);
       // TODO: adicionar id EC na hora de criar a classe
@@ -163,6 +163,8 @@ class AdmController extends UserController {
         capacity,
       });
 
+      await ClassProfessional.create({ fk_idClass: class_obj.id, fk_idProfessional: id_teacher });
+
       const children = await Child.findAll({
         limit: capacity,
       });
@@ -178,6 +180,7 @@ class AdmController extends UserController {
       await class_obj.update({ capacity: capacity - children.length });
       const clss = await Class.findByPk(class_obj.id, {
         include: { association: 'Children' },
+        include: { association: 'Teacher' },
       });
 
       return res.status(201).json({ message: 'Turma Cadastrada!', clss });
@@ -225,6 +228,7 @@ class AdmController extends UserController {
       return res.status(500).json({ error: err.message });
     }
   }
+
 
   async registerTeacherClass(req, res) {
     try {

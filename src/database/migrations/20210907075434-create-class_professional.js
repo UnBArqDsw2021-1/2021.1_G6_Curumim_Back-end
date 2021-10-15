@@ -28,5 +28,5 @@ module.exports = {
     },
   }),
 
-  down: async (queryInterface, Sequelize) => queryInterface.dropTable('class_professional'),
+  down: async (queryInterface, Sequelize) => queryInterface.dropTable('class_professionals'),
 };

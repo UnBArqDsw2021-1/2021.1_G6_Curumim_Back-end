@@ -15,8 +15,8 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
 class TeacherController extends UserController {
   async list(req, res) {
     try {
-      const users = await User.findAll();
-      const plist = await Professionals.findAll();
+      const users = await User.findAll({ where: { usertype: 1 }, attributes: ['id', 'name'] });
+      const plist = await Professionals.findAll({ where: { professional_type: 'teacher' } });
       return res.json({ users, professionals: plist });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
