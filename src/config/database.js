@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 module.exports = {
-  dialect:'postgres',
+  dialect: 'postgres',
   host: process.env.POSTGRES_HOST,
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
@@ -12,8 +12,6 @@ module.exports = {
   define: {
     timestamp: true,
     underscored: true,
-    underscoredAll: true
-  }
+    underscoredAll: true,
+  },
 };
-
-

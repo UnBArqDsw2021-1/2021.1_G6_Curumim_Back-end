@@ -54,25 +54,25 @@ class TeacherController extends UserController {
 
       const relations = await ClassProfessional.findAll({
         where: {
-          fk_idProfessional: req.userId
-        }
+          fk_idProfessional: req.userId,
+        },
       });
 
-      for (const relation of relations){
+      for (const relation of relations) {
         const class_obj = await Class.findByPk(relation.dataValues.fk_idClass);
         list.push(class_obj.dataValues);
       }
 
-      return res.json({list});
+      return res.json({ list });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
   }
 
-  async getClassInfo(req, res){
-    try{
+  async getClassInfo(req, res) {
+    try {
       const { class_id } = req.params;
-      
+
       const relation = await ClassProfessional.findOne({
         where: {
           fk_idClass: class_id,
@@ -85,13 +85,13 @@ class TeacherController extends UserController {
 
       const details = await Class.findByPk(class_id);
 
-      const activities = []
+      const activities = [];
       const activities_rels = await ClassProject.findAll({
         where: {
           fk_idClass: class_id,
-        }
+        },
       });
-      for (const relation of activities_rels){
+      for (const relation of activities_rels) {
         const project = await Project.findByPk(relation.dataValues.fk_idProject);
         activities.push(project.dataValues);
       }
@@ -99,9 +99,9 @@ class TeacherController extends UserController {
       const children = await Child.findAll({
         where: {
           fk_idClass: class_id,
-        }
+        },
       });
-      
+
       return res.json({
         details,
         activities,

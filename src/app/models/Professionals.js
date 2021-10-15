@@ -17,7 +17,7 @@ class Professionals extends Model {
 
   static associate(models) {
     this.hasMany(models.Project, { foreignKey: 'fk_idProfessional', as: 'Projects' });
-    this.hasMany(models.Anotation, { foreignKey: 'fk_idProfessional'});
+    this.hasMany(models.Anotation, { foreignKey: 'fk_idProfessional' });
     this.belongsToMany(models.Class, { as: 'Class', through: 'ClassProfessional', foreignKey: 'fk_idProfessional' });
     this.belongsTo(models.Ec, { foreignKey: 'fk_idEc', as: 'ec' });
   }

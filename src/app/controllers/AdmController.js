@@ -227,11 +227,11 @@ class AdmController extends UserController {
   }
 
   async registerTeacherClass(req, res) {
-    try{
+    try {
       const { teacher_id, class_id } = req.body;
 
       const { usertype } = await User.findByPk(teacher_id);
-      if (usertype !== 1){
+      if (usertype !== 1) {
         return res.status(403).json({ message: 'O usuário não é um professor.' });
       }
 
@@ -239,30 +239,29 @@ class AdmController extends UserController {
         where: {
           fk_idClass: class_id,
           fk_idProfessional: teacher_id,
-        }
+        },
       });
       if (TeacherClass !== null) {
         return res.status(201).json({ message: 'Professional já está cadastrado na turma.' });
       }
 
-      await ClassProfessional.create({ fk_idClass: class_id, fk_idProfessional: teacher_id, });
+      await ClassProfessional.create({ fk_idClass: class_id, fk_idProfessional: teacher_id });
 
       return res.status(200).json({ msg: 'Professor adicionado à turma.' });
-    }catch(err) {
+    } catch (err) {
       return res.status(500).json({ error: err.message });
     }
   }
 
   async deleteTeacherClass(req, res) {
-    try{
+    try {
       const { teacher_id, class_id } = req.query;
-      console.log(req);
 
       const TeacherClass = await ClassProfessional.findOne({
         where: {
           fk_idClass: class_id,
           fk_idProfessional: teacher_id,
-        }
+        },
       });
       if (TeacherClass === null) {
         return res.status(404).json({ message: 'Relação não encontrada.' });
@@ -271,11 +270,11 @@ class AdmController extends UserController {
       await TeacherClass.destroy();
 
       return res.status(200).json({ msg: 'Professor removido da turma.' });
-    }catch(err) {
+    } catch (err) {
       return res.status(500).json({ error: err.message });
     }
   }
-  
+
   async updateClass(req, res) {
     try {
       const { id, updates } = req.body;
