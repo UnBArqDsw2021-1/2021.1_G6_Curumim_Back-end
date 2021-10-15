@@ -58,8 +58,6 @@ class TeacherController extends UserController {
         },
       });
 
-      console.log(relations);
-
       for (const relation of relations) {
         const class_obj = await Class.findByPk(relation.dataValues.fk_idClass);
         list.push(class_obj.dataValues);
