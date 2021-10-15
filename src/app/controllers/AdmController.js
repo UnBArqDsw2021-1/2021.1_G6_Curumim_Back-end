@@ -6,12 +6,14 @@ import GuardianChild from '../models/GuardianChild';
 import UserController from './UserController';
 import dbConfig from '../../config/database';
 import Class from '../models/Class';
+import Ec from './EcController';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
 
 class AdmController extends UserController {
   async register(req, res) {
+    const { id: fk_idEc } = await new Ec();
     const t = await sequelize.transaction();
     try {
       const usertype = 2;
@@ -21,7 +23,9 @@ class AdmController extends UserController {
       const { id } = await User.create({
         usertype, name, cpf, birthday, email, password,
       }, { transaction: t });
-      await Professionals.create({ id, professionalType: 'adm', registration }, { transaction: t });
+      await Professionals.create({
+        id, professionalType: 'adm', registration, fk_idEc,
+      }, { transaction: t });
       await t.commit();
       return res.json({
         usertype,
@@ -29,6 +33,7 @@ class AdmController extends UserController {
         cpf,
         birthday,
         email,
+        fk_idEc,
       });
     } catch (err) {
       t.rollback();
@@ -119,17 +124,17 @@ class AdmController extends UserController {
     try {
       const { id, cpf } = req.body;
 
-      const guardian_children  = await GuardianChild.findOne({
+      const guardian_children = await GuardianChild.findOne({
         where: {
           fk_id_child: id,
           guardian_cpf: cpf,
         },
       });
-      if (guardian_children  === null) {
+      if (guardian_children === null) {
         return res.status(404).json({ message: 'Responsável não encontrado para essa criança.' });
       }
 
-      await guardian_children .destroy();
+      await guardian_children.destroy();
 
       return res.status(200).json({ message: 'Responsável deletado!' });
     } catch (err) {
@@ -140,6 +145,7 @@ class AdmController extends UserController {
   async registerClass(req, res) {
     try {
       const { code, capacity } = req.body;
+
       // const {fk_idEc} = await Professionals.findByPk(req.userId);
       // TODO: adicionar id EC na hora de criar a classe
       const class_ver = await Class.findOne({
@@ -151,11 +157,31 @@ class AdmController extends UserController {
         return res.status(409).json({ message: 'Já existe uma turma com esse código.', class: class_ver });
       }
 
-      const class_obj = await Class.create({ code, capacity });
+      const class_obj = await Class.create({
+        code,
+        capacity,
+      });
 
-      return res.status(201).json({ message: 'Turma Cadastrada!', class: class_obj });
+      const children = await Child.findAll({
+        limit: capacity,
+      });
+
+      children.map((child) => {
+        child.update({
+          fk_idClass: class_obj.id,
+        });
+      });
+
+      await class_obj.reload();
+
+      await class_obj.update({ capacity: capacity - children.length });
+      const clss = await Class.findByPk(class_obj.id, {
+        include: { association: 'Children' },
+      });
+
+      return res.status(201).json({ message: 'Turma Cadastrada!', clss });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.stack });
     }
   }
 
@@ -196,6 +222,36 @@ class AdmController extends UserController {
       return res.status(200).json({ msg: 'Aluno removido da turma!' });
     } catch (err) {
       return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async updateClass(req, res) {
+    try {
+      const { id, updates } = req.body;
+      const clss = await Class.findByPk(id);
+
+      const updated = await clss.update(updates);
+
+      return res.json({
+        updated,
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async deleteClass(req, res) {
+    try {
+      const { id } = req.params;
+      const clss = await Class.findByPk(id);
+
+      await clss.destroy();
+
+      return res.json({
+        msg: 'Deletada com sucesso',
+      });
+    } catch (err) {
+      return res.status(500).json({ error: err.stack });
     }
   }
 }
