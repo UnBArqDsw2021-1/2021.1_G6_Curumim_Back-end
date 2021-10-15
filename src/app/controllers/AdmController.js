@@ -13,7 +13,7 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
 
 class AdmController extends UserController {
   async register(req, res) {
-    const { id: fk_idEc } = await Ec.getInstance();
+    const { id: fk_idEc } = await new Ec();
     const t = await sequelize.transaction();
     try {
       const usertype = 2;
