@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "predev": "yarn sequelize db:migrate:undo:all && yarn sequelize db:migrate",
+    "prestart": "yarn sequelize db:migrate && yarn sequelize-cli db:seed:all",
+    "predev": "yarn sequelize db:migrate && yarn sequelize-cli db:seed:all",
     "start": "node -r sucrase/register ./src/server.js",
     "dev": "nodemon src/server.js"
   },
@@ -23,5 +24,10 @@
     "sequelize": "^6.6.5",
     "sequelize-cli": "^6.2.0",
     "sucrase": "^3.20.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.2"
   }
 }

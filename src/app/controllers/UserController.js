@@ -1,33 +1,5 @@
-import User from '../models/User'
-
 class UserController {
-
-  async store(req, res) {
-    try{
-      const { usertype, name, cpf, birthday, email, password } = await User.create(req.body);  
-        return res.json({
-            usertype, 
-            name, 
-            cpf, 
-            birthday, 
-            email, 
-            password
-          }); 
-    
-    }catch(err){
-        return res.status(500).json({ error: err.stack });
-     }
-  }
-
-  async list(req, res){
-    try{
-      const list = await User.findAll();
-      return res.json(list)
-
-    }catch(err){
-      return res.status(500).json({ error: err.stack });
-   }
-  }
+  register() { }
 }
 
-export default new UserController(); 
+export default UserController;

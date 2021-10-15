@@ -1,25 +1,24 @@
-/* import EC from "../models/EC";
+import Ec from '../models/Ec';
 
-class EC {
+class EcController {
+  #instance
 
-    async store(req, res) {
+  constructor(){
+    if (this.#instance) {
+      this.#instance = this.createInstance()
+    }
 
-        try {
+    return this.getInstance
+  }
 
-          const { id,name,adress,description} = await Admin.create(req.body);
-    
-          return res.json({
-            id,
-            name,
-            adress, 
-            description
-          });
-    
-        }catch(err){
-          return res.status(500).json({ error: 'Falha na criação do evento'});
-        }
-      }
+  async createInstance() {
+    var object = await Ec.findOne()
+    return object;
+  }
 
+  async getInstance() {
+    return this.#instance;
+  }
 }
 
-export default new EC(); */
+export default EcController;

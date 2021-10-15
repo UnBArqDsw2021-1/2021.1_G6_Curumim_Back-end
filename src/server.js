@@ -1,7 +1,4 @@
-import app from './app'
-require('./database');
-
-const express = require("express");
-
+// import express from 'express';
+import app from './app';
 
 app.listen(process.env.PORT || 3333);

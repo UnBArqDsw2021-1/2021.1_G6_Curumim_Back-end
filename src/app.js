@@ -1,22 +1,25 @@
-require('dotenv').config()
-import express from 'express'
-import routes from './routes'
-import './database'
+import express from 'express';
+import cors from 'cors';
+import routes from './routes';
+import './database';
 
-class App{
-    constructor(){
-        this.server = express()
-        this.middlewares()
-        this.routes()
-    }
+require('dotenv').config();
 
-    middlewares(){
-        this.server.use(express.json())
-    }
+class App {
+  constructor() {
+    this.server = express();
+    this.middlewares();
+    this.routes();
+  }
 
-    routes(){
-        this.server.use(routes)
-    }
+  middlewares() {
+    this.server.use(cors());
+    this.server.use(express.json());
+  }
+
+  routes() {
+    this.server.use(routes);
+  }
 }
 
-export default new App().server
+export default new App().server;
