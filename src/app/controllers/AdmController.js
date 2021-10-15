@@ -229,10 +229,36 @@ class AdmController extends UserController {
     }
   }
 
+  async registerTeacherClass(req, res) {
+    try {
+      const { teacher_id, class_id } = req.body;
+
+      const { usertype } = await User.findByPk(teacher_id);
+      if (usertype !== 1) {
+        return res.status(403).json({ message: 'O usuário não é um professor.' });
+      }
+
+      const TeacherClass = await ClassProfessional.findOne({
+        where: {
+          fk_idClass: class_id,
+          fk_idProfessional: teacher_id,
+        },
+      });
+      if (TeacherClass !== null) {
+        return res.status(201).json({ message: 'Professional já está cadastrado na turma.' });
+      }
+
+      await ClassProfessional.create({ fk_idClass: class_id, fk_idProfessional: teacher_id });
+
+      return res.status(200).json({ msg: 'Professor adicionado à turma.' });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
   async deleteTeacherClass(req, res) {
     try {
       const { teacher_id, class_id } = req.query;
-      console.log(req);
 
       const TeacherClass = await ClassProfessional.findOne({
         where: {

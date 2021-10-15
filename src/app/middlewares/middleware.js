@@ -59,7 +59,6 @@ class Middleware {
       const decoded = await promisify(jwt.verify)(token, authConfig.secret);
 
       if (decoded.usertype !== 0) {
-        console.log(decoded.usertype);
         return res.status(401).json({ error: 'Acesso negado.' });
       }
       req.userId = decoded.id;
