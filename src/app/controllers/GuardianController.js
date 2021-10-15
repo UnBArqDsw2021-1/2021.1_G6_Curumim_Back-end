@@ -38,7 +38,7 @@ class GuardianController extends UserController {
 
       await Guardian.create({ id, adress }, { transaction: t });
 
-      const guardian_children = await GuardianChild.findAll({
+      const guardian_children  = await GuardianChild.findAll({
         where: {
           guardian_cpf: cpf,
         },
@@ -46,7 +46,7 @@ class GuardianController extends UserController {
 
       await t.commit();
 
-      for (const element of guardian_children) {
+      for (const element of guardian_children ) {
         await element.update({
           fk_idGuardian: id,
         });

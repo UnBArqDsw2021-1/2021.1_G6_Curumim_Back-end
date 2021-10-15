@@ -10,11 +10,11 @@ class Child extends Model {
       sequelize,
     });
   }
-  
+
   static associate(models) {
     this.belongsTo(models.Class, { foreignKey: 'fk_idClass', as: 'turma' });
-    this.belongsToMany(models.GuardianChild, { as: 'Guardian', through: 'guardian_children', foreignKey: 'fk_idChild' });
-    this.hasMany(models.Anotation, { foreignKey: 'fk_idChild'});
+    this.belongsToMany(models.GuardianChild, { as: 'Guardian', through: 'guardian_children ', foreignKey: 'fk_idChild' });
+    this.hasMany(models.Anotation, { foreignKey: 'fk_idChild' });
   }
 }
 
