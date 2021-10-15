@@ -6,6 +6,7 @@ import GuardianChild from '../models/GuardianChild';
 import UserController from './UserController';
 import dbConfig from '../../config/database';
 import Class from '../models/Class';
+import ClassProfessional from '../models/ClassProfessional';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -129,7 +130,7 @@ class AdmController extends UserController {
         return res.status(404).json({ message: 'Responsável não encontrado para essa criança.' });
       }
 
-      await guardian_children .destroy();
+      await guardian_children.destroy();
 
       return res.status(200).json({ message: 'Responsável deletado!' });
     } catch (err) {
@@ -195,6 +196,56 @@ class AdmController extends UserController {
 
       return res.status(200).json({ msg: 'Aluno removido da turma!' });
     } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async registerTeacherClass(req, res) {
+    try{
+      const { teacher_id, class_id } = req.body;
+
+      const { usertype } = await User.findByPk(teacher_id);
+      if (usertype !== 1){
+        return res.status(403).json({ message: 'O usuário não é um professor.' });
+      }
+
+      const TeacherClass = await ClassProfessional.findOne({
+        where: {
+          fk_idClass: class_id,
+          fk_idProfessional: teacher_id,
+        }
+      });
+      if (TeacherClass !== null) {
+        return res.status(201).json({ message: 'Professional já está cadastrado na turma.' });
+      }
+
+      await ClassProfessional.create({ fk_idClass: class_id, fk_idProfessional: teacher_id, });
+
+      return res.status(200).json({ msg: 'Professor adicionado à turma.' });
+    }catch(err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async deleteTeacherClass(req, res) {
+    try{
+      const { teacher_id, class_id } = req.query;
+      console.log(req);
+
+      const TeacherClass = await ClassProfessional.findOne({
+        where: {
+          fk_idClass: class_id,
+          fk_idProfessional: teacher_id,
+        }
+      });
+      if (TeacherClass === null) {
+        return res.status(404).json({ message: 'Relação não encontrada.' });
+      }
+
+      await TeacherClass.destroy();
+
+      return res.status(200).json({ msg: 'Professor removido da turma.' });
+    }catch(err) {
       return res.status(500).json({ error: err.message });
     }
   }
