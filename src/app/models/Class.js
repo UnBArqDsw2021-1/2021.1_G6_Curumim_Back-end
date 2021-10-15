@@ -15,6 +15,7 @@ class Class extends Model {
     // this.hasMany(models.Activity, { through: 'class_project' });
     // this.hasMany(models.Event, { through: 'class_project' });
     // this.hasMany(models.Teacher, { through: 'class_professional' });
+    this.belongsToMany(models.Professionals, { as: 'Teacher', through: 'ClassProfessional', foreignKey: 'fk_idClass' });
     this.hasMany(models.Child, { foreignKey: 'fk_idClass', as: 'Children' });
     this.belongsToMany(models.Project, { as: 'Project', through: 'ClassProject', foreignKey: 'fk_idClass' });
   }

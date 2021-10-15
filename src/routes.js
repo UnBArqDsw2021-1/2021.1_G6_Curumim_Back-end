@@ -33,6 +33,7 @@ routes.get('/adm/list-professionals', TeacherController.list);
 routes.get('/adm/list-guardians', GuardianController.list);
 routes.get('/adm/list-classes', AdmController.listClasses);
 routes.get('/adm/list-anotations', AnotationController.listAll);
+routes.delete('/adm/delete-class-teacher', AdmController.deleteTeacherClass);
 // routes.get('/adm/list-activities', ActivityController.list);
 
 // Teacher routes
@@ -45,6 +46,7 @@ routes.post('/teacher/create-anotation', AnotationController.create);
 routes.put('/teacher/update-anotation', AnotationController.update);
 routes.delete('/teacher/delete-anotation/:id', AnotationController.delete);
 routes.get('/teacher/list-anotations', AnotationController.listMine);
+routes.get('/teacher/list-my-classes', TeacherController.listMyClasses);
 
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);

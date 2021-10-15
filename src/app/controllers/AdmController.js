@@ -6,6 +6,7 @@ import GuardianChild from '../models/GuardianChild';
 import UserController from './UserController';
 import dbConfig from '../../config/database';
 import Class from '../models/Class';
+import ClassProfessional from '../models/ClassProfessional';
 import Ec from './EcController';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
@@ -144,7 +145,7 @@ class AdmController extends UserController {
 
   async registerClass(req, res) {
     try {
-      const { code, capacity } = req.body;
+      const { code, capacity, id_teacher } = req.body;
 
       // const {fk_idEc} = await Professionals.findByPk(req.userId);
       // TODO: adicionar id EC na hora de criar a classe
@@ -162,6 +163,8 @@ class AdmController extends UserController {
         capacity,
       });
 
+      await ClassProfessional.create({ fk_idClass: class_obj.id, fk_idProfessional: id_teacher });
+
       const children = await Child.findAll({
         limit: capacity,
       });
@@ -177,6 +180,7 @@ class AdmController extends UserController {
       await class_obj.update({ capacity: capacity - children.length });
       const clss = await Class.findByPk(class_obj.id, {
         include: { association: 'Children' },
+        include: { association: 'Teacher' },
       });
 
       return res.status(201).json({ message: 'Turma Cadastrada!', clss });
@@ -220,6 +224,29 @@ class AdmController extends UserController {
       });
 
       return res.status(200).json({ msg: 'Aluno removido da turma!' });
+    } catch (err) {
+      return res.status(500).json({ error: err.message });
+    }
+  }
+
+  async deleteTeacherClass(req, res) {
+    try {
+      const { teacher_id, class_id } = req.query;
+      console.log(req);
+
+      const TeacherClass = await ClassProfessional.findOne({
+        where: {
+          fk_idClass: class_id,
+          fk_idProfessional: teacher_id,
+        },
+      });
+      if (TeacherClass === null) {
+        return res.status(404).json({ message: 'Relação não encontrada.' });
+      }
+
+      await TeacherClass.destroy();
+
+      return res.status(200).json({ msg: 'Professor removido da turma.' });
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }
