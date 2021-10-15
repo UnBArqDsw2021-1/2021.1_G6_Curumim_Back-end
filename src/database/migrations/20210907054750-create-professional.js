@@ -8,7 +8,7 @@ module.exports = {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
-    fk_idEc: {
+    fk_id_ec: {
       type: Sequelize.INTEGER,
       references: { model: 'ecs', key: 'id' },
       onUpdate: 'CASCADE',
