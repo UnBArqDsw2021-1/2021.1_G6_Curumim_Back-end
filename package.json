@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "predev": "yarn sequelize db:migrate",
+    "prestart": "yarn sequelize db:migrate",
     "start": "node -r sucrase/register ./src/server.js",
     "dev": "nodemon src/server.js"
   },
