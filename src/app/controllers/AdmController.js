@@ -225,17 +225,6 @@ class AdmController extends UserController {
     }
   }
 
-  async registerClass(req, res) {
-    try {
-      const { code, capacity } = req.body;
-      await Clss.create({ code, capacity });
-    } catch (err) {
-      return res.status(500).json({ error: err.message });
-    }
-
-    return res.status(201).json({ message: 'Turma cadastrado!' });
-  }
-
   async updateClass(req, res) {
     try {
       const { id, updates } = req.body;
