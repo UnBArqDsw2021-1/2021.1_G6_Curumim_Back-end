@@ -33,7 +33,6 @@ routes.get('/adm/list-professionals', TeacherController.list);
 routes.get('/adm/list-guardians', GuardianController.list);
 routes.get('/adm/list-classes', AdmController.listClasses);
 routes.get('/adm/list-anotations', AnotationController.listAll);
-routes.post('/adm/register-class-teacher', AdmController.registerTeacherClass);
 routes.delete('/adm/delete-class-teacher', AdmController.deleteTeacherClass);
 // routes.get('/adm/list-activities', ActivityController.list);
 
