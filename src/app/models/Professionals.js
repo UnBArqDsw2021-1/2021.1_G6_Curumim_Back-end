@@ -1,5 +1,4 @@
 import { Model, DataTypes } from 'sequelize';
-import Project from './Project';
 
 class Professionals extends Model {
   static init(sequelize) {
@@ -7,6 +6,7 @@ class Professionals extends Model {
       {
         registration: DataTypes.INTEGER,
         professionalType: DataTypes.STRING,
+        fk_idEc: DataTypes.INTEGER,
       },
       {
         sequelize,
@@ -17,7 +17,8 @@ class Professionals extends Model {
 
   static associate(models) {
     this.hasMany(models.Project, { foreignKey: 'fk_idProfessional', as: 'Projects' });
-    this.hasMany(models.Anotation, { foreignKey: 'fk_idProfessional'});
+    this.hasMany(models.Anotation, { foreignKey: 'fk_idProfessional' });
+    this.belongsTo(models.Ec, { foreignKey: 'fk_idEc', as: 'ec' });
   }
 }
 

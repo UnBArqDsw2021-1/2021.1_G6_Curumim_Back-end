@@ -6,12 +6,14 @@ import GuardianChild from '../models/GuardianChild';
 import UserController from './UserController';
 import dbConfig from '../../config/database';
 import Class from '../models/Class';
+import Ec from './EcController';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
 
 class AdmController extends UserController {
   async register(req, res) {
+    const { id: fk_id_ec } = await Ec.getInstance();
     const t = await sequelize.transaction();
     try {
       const usertype = 2;
@@ -21,7 +23,9 @@ class AdmController extends UserController {
       const { id } = await User.create({
         usertype, name, cpf, birthday, email, password,
       }, { transaction: t });
-      await Professionals.create({ id, professionalType: 'adm', registration }, { transaction: t });
+      await Professionals.create({
+        id, professionalType: 'adm', registration, fk_idEc: fk_id_ec,
+      }, { transaction: t });
       await t.commit();
       return res.json({
         usertype,
@@ -29,6 +33,7 @@ class AdmController extends UserController {
         cpf,
         birthday,
         email,
+        fk_idEc,
       });
     } catch (err) {
       t.rollback();
