@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "prestart": "yarn sequelize db:migrate",
+    "predev": "yarn sequelize db:migrate",
     "start": "node -r sucrase/register ./src/server.js",
     "dev": "nodemon src/server.js"
   },
