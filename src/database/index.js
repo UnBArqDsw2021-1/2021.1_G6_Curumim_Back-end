@@ -10,8 +10,9 @@ import Project from '../app/models/Project';
 import GuardianChild from '../app/models/GuardianChild';
 import ClassProject from '../app/models/ClassProject';
 import Anotation from '../app/models/Anotation';
+import ClassProfessional from '../app/models/ClassProfessional';
 
-const models = [User, Ec, Class, Child, Professionals, Guardian, Project, GuardianChild, ClassProject, Anotation];
+const models = [User, Ec, Class, Child, Professionals, Guardian, Project, GuardianChild, ClassProject, Anotation, ClassProfessional];
 const assoc = [Class, Professionals, Project, Child, Guardian, Anotation];
 
 class Database {

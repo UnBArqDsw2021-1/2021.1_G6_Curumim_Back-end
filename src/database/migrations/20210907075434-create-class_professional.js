@@ -1,18 +1,18 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('class_professional', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('class_professionals', {
     id: {
       allowNull: false,
       primaryKey: true,
       type: Sequelize.INTEGER,
       autoIncrement: true,
     },
-    fk_idClass: {
+    fk_id_class: {
       type: Sequelize.INTEGER,
       references: { model: 'classes', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
-    fk_idProfessional: {
+    fk_id_professional: {
       type: Sequelize.INTEGER,
       references: { model: 'professionals', key: 'id' },
       onUpdate: 'CASCADE',
