@@ -13,8 +13,8 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
 class TeacherController extends UserController {
   async list(req, res) {
     try {
-      const users = await User.findAll();
-      const plist = await Professionals.findAll();
+      const users = await User.findAll({ where: { usertype: 1 }, attributes: ['id', 'name'] });
+      const plist = await Professionals.findAll({ where: { professional_type: 'teacher' } });
       return res.json({ users, professionals: plist });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
@@ -52,18 +52,18 @@ class TeacherController extends UserController {
 
       const relations = await ClassProfessional.findAll({
         where: {
-          fk_idProfessional: req.userId
-        }
+          fk_idProfessional: req.userId,
+        },
       });
 
       console.log(relations);
 
-      for (const relation of relations){
+      for (const relation of relations) {
         const class_obj = await Class.findByPk(relation.dataValues.fk_idClass);
         list.push(class_obj.dataValues);
       }
 
-      return res.json({list});
+      return res.json({ list });
     } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
