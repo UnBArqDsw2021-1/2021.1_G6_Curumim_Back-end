@@ -12,7 +12,6 @@ import Ec from './EcController';
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
 
-
 class AdmController extends UserController {
   async register(req, res) {
     const { id: fk_idEc } = await new Ec();
@@ -146,7 +145,7 @@ class AdmController extends UserController {
 
   async registerClass(req, res) {
     try {
-      const { code, capacity, teacher_id } = req.body;
+      const { code, capacity, id_teacher } = req.body;
 
       // const {fk_idEc} = await Professionals.findByPk(req.userId);
       // TODO: adicionar id EC na hora de criar a classe
@@ -164,7 +163,7 @@ class AdmController extends UserController {
         capacity,
       });
 
-      await ClassProfessional.create({ fk_idClass: class_obj.id, fk_idProfessional: teacher_id, });
+      await ClassProfessional.create({ fk_idClass: class_obj.id, fk_idProfessional: id_teacher });
 
       const children = await Child.findAll({
         limit: capacity,
@@ -181,6 +180,7 @@ class AdmController extends UserController {
       await class_obj.update({ capacity: capacity - children.length });
       const clss = await Class.findByPk(class_obj.id, {
         include: { association: 'Children' },
+        include: { association: 'Teacher' },
       });
 
       return res.status(201).json({ message: 'Turma Cadastrada!', clss });
@@ -230,7 +230,7 @@ class AdmController extends UserController {
   }
 
   async deleteTeacherClass(req, res) {
-    try{
+    try {
       const { teacher_id, class_id } = req.query;
       console.log(req);
 
@@ -238,7 +238,7 @@ class AdmController extends UserController {
         where: {
           fk_idClass: class_id,
           fk_idProfessional: teacher_id,
-        }
+        },
       });
       if (TeacherClass === null) {
         return res.status(404).json({ message: 'Relação não encontrada.' });
@@ -247,9 +247,11 @@ class AdmController extends UserController {
       await TeacherClass.destroy();
 
       return res.status(200).json({ msg: 'Professor removido da turma.' });
-    }catch(err) {
+    } catch (err) {
       return res.status(500).json({ error: err.message });
-      
+    }
+  }
+
   async updateClass(req, res) {
     try {
       const { id, updates } = req.body;
