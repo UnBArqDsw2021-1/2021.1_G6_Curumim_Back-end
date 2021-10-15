@@ -1,22 +1,24 @@
-import EC from '../models/Ec';
+import Ec from '../models/Ec';
 
 class EcController {
-  async store(req, res) {
-    try {
-      const {
-        id, name, adress, description,
-      } = await EC.create(req.body);
+  #instance
 
-      return res.json({
-        id,
-        name,
-        adress,
-        description,
-      });
-    } catch (err) {
-      return res.status(500).json({ error: 'Falha na criação do centro educacional.' });
+  constructor(){
+    if (this.#instance) {
+      this.#instance = this.createInstance()
     }
+
+    return this.getInstance
+  }
+
+  async createInstance() {
+    var object = await Ec.findOne()
+    return object;
+  }
+
+  async getInstance() {
+    return this.#instance;
   }
 }
 
-export default new EcController();
+export default EcController;
