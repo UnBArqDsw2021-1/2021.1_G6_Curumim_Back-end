@@ -5,6 +5,7 @@ import User from '../models/User';
 import dbConfig from '../../config/database';
 import Project from '../models/Project';
 import Class from '../models/Class';
+import ClassProfessional from '../models/ClassProfessional';
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
   dbConfig.password, { host: dbConfig.host, dialect: dbConfig.dialect });
@@ -41,6 +42,29 @@ class TeacherController extends UserController {
       });
     } catch (err) {
       t.rollback();
+      return res.status(500).json({ error: err.stack });
+    }
+  }
+
+  async listMyClasses(req, res) {
+    try {
+      const list = [];
+
+      const relations = await ClassProfessional.findAll({
+        where: {
+          fk_idProfessional: req.userId
+        }
+      });
+
+      console.log(relations);
+
+      for (const relation of relations){
+        const class_obj = await Class.findByPk(relation.dataValues.fk_idClass);
+        list.push(class_obj.dataValues);
+      }
+
+      return res.json({list});
+    } catch (err) {
       return res.status(500).json({ error: err.stack });
     }
   }
