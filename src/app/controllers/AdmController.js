@@ -145,6 +145,7 @@ class AdmController extends UserController {
   async registerClass(req, res) {
     try {
       const { code, capacity } = req.body;
+
       // const {fk_idEc} = await Professionals.findByPk(req.userId);
       // TODO: adicionar id EC na hora de criar a classe
       const class_ver = await Class.findOne({
@@ -156,11 +157,31 @@ class AdmController extends UserController {
         return res.status(409).json({ message: 'Já existe uma turma com esse código.', class: class_ver });
       }
 
-      const class_obj = await Class.create({ code, capacity });
+      const class_obj = await Class.create({
+        code,
+        capacity,
+      });
 
-      return res.status(201).json({ message: 'Turma Cadastrada!', class: class_obj });
+      const children = await Child.findAll({
+        limit: capacity,
+      });
+
+      children.map((child) => {
+        child.update({
+          fk_idClass: class_obj.id,
+        });
+      });
+
+      await class_obj.reload();
+
+      await class_obj.update({ capacity: capacity - children.length });
+      const clss = await Class.findByPk(class_obj.id, {
+        include: { association: 'Children' },
+      });
+
+      return res.status(201).json({ message: 'Turma Cadastrada!', clss });
     } catch (err) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: err.stack });
     }
   }
 
