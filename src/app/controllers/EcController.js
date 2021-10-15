@@ -5,7 +5,6 @@ class EcController {
 
   async createInstance() {
     var object = await Ec.findOne()
-    console.log(object)
     return object;
   }
 
