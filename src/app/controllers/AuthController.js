@@ -33,18 +33,23 @@ class AuthController {
       }
       const { id, name, usertype } = user;
 
-      const children_list = [];
+      var list = [];
 
-      const children_rel = await GuardianChild.findAll({
-        where: {
-          fk_idGuardian: id
+      if (usertype === 0) {
+        const relations = await GuardianChild.findAll({
+          where: {
+            fk_idGuardian: id
+          }
+        });
+  
+        for (const relation of relations){
+          const child = await Child.findByPk(relation.dataValues.fk_idChild);
+          list.push(child.dataValues);
         }
-      });
-
-      for (const child_rel of children_rel){
-        const child = await Child.findByPk(child_rel.dataValues.fk_idChild);
-        children_list.push(child.dataValues);
+      } else {
+        list = undefined;
       }
+
 
       return res.json({
         user: {
@@ -58,7 +63,7 @@ class AuthController {
           expiresIn: authConfig.expiresIn,
         }),
 
-        children_list
+        extra_info: list
 
       });
     } catch (err) {
