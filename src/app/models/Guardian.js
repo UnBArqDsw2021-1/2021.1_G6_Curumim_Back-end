@@ -15,7 +15,7 @@ class Guardian extends Model {
   }
 
   static associate(models) {
-    this.belongsToMany(models.GuardianChild, { as: 'Child', through: 'guardian_children', foreignKey: 'fk_idGuardian' });
+    this.belongsToMany(models.GuardianChild, { as: 'Child', through: 'guardian_children ', foreignKey: 'fk_idGuardian' });
   }
 }
 
