@@ -48,6 +48,7 @@ routes.put('/teacher/update-anotation', AnotationController.update);
 routes.delete('/teacher/delete-anotation/:id', AnotationController.delete);
 routes.get('/teacher/list-anotations', AnotationController.listMine);
 routes.get('/teacher/list-my-classes', TeacherController.listMyClasses);
+routes.get('/teacher/get-class-info/:class_id', TeacherController.getClassInfo)
 
 // Guardian routes
 routes.use('/guardian', Middleware.verifyGuardian);
