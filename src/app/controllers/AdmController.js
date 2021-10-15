@@ -124,17 +124,17 @@ class AdmController extends UserController {
     try {
       const { id, cpf } = req.body;
 
-      const guardian_child = await GuardianChild.findOne({
+      const guardian_children  = await GuardianChild.findOne({
         where: {
           fk_id_child: id,
           guardian_cpf: cpf,
         },
       });
-      if (guardian_child === null) {
+      if (guardian_children  === null) {
         return res.status(404).json({ message: 'Responsável não encontrado para essa criança.' });
       }
 
-      await guardian_child.destroy();
+      await guardian_children .destroy();
 
       return res.status(200).json({ message: 'Responsável deletado!' });
     } catch (err) {

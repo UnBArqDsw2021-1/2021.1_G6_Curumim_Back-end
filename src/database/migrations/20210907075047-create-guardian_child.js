@@ -33,5 +33,5 @@ module.exports = {
     },
   }),
 
-  down: async (queryInterface, Sequelize) => queryInterface.dropTable('guardian_child'),
+  down: async (queryInterface, Sequelize) => queryInterface.dropTable('guardian_children'),
 };
