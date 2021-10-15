@@ -13,7 +13,7 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username,
 
 class AdmController extends UserController {
   async register(req, res) {
-    const { id: fk_id_ec } = await Ec.getInstance();
+    const { id: fk_idEc } = await Ec.getInstance();
     const t = await sequelize.transaction();
     try {
       const usertype = 2;
@@ -24,7 +24,7 @@ class AdmController extends UserController {
         usertype, name, cpf, birthday, email, password,
       }, { transaction: t });
       await Professionals.create({
-        id, professionalType: 'adm', registration, fk_idEc: fk_id_ec,
+        id, professionalType: 'adm', registration, fk_idEc,
       }, { transaction: t });
       await t.commit();
       return res.json({
@@ -124,17 +124,17 @@ class AdmController extends UserController {
     try {
       const { id, cpf } = req.body;
 
-      const guardian_children  = await GuardianChild.findOne({
+      const guardian_children = await GuardianChild.findOne({
         where: {
           fk_id_child: id,
           guardian_cpf: cpf,
         },
       });
-      if (guardian_children  === null) {
+      if (guardian_children === null) {
         return res.status(404).json({ message: 'Responsável não encontrado para essa criança.' });
       }
 
-      await guardian_children .destroy();
+      await guardian_children.destroy();
 
       return res.status(200).json({ message: 'Responsável deletado!' });
     } catch (err) {
